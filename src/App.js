@@ -1,7 +1,7 @@
 import React from 'react';
-import './App.css';
+import './app.scss';
 
-import MainContainer from './MainContainer';
+import MainContainer from './components/MainContainer/MainContainer';
 
 const App = () => (
     <div className="container">

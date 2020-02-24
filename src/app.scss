@@ -1,0 +1,9 @@
+@import 'node_modules/nord/src/sass/nord.scss';
+@import url('https://fonts.googleapis.com/css?family=Nunito:600&display=swap');
+
+$font-stack: 'Nunito';
+
+body {
+    font-family: $font-stack;
+    background-color: $nord0;
+}

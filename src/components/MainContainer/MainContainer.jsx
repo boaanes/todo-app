@@ -1,11 +1,13 @@
 import React from 'react';
 
+import './mainContainer.scss';
+
 import { Button } from 'semantic-ui-react';
 
-import AddTodo from './AddTodo';
-import TodoList from './TodoList';
+import AddTodo from '../AddTodo/AddTodo';
+import TodoList from '../TodoList/TodoList';
 import Todo from './Todo';
-import Summary from './Summary';
+import Summary from '../Summary/Summary';
 
 export default class MainContainer extends React.Component {
         
@@ -17,6 +19,11 @@ export default class MainContainer extends React.Component {
         };
     }
     
+    /**
+     * Load the data from LocalStorage
+     * If there is no data in LocalStorage, return an empty array
+     * Otherwise return the JSON data
+     */
     loadData = () => {
         const data = JSON.parse(localStorage.getItem('data'));
         if (data !== null && data.length !== 0) {
@@ -25,15 +32,22 @@ export default class MainContainer extends React.Component {
             return [];
         }
     }
-
+    
+    /**
+     * Saves the data to LocalStorage
+     */
     saveData = () => {
         localStorage.setItem('data', JSON.stringify(this.state.todos));
     }
 
+    /**
+     * Add a new todo item to the list
+     */
     addNew = ( text ) => {
         if (text !== '') {
             let newID;
             
+            //set the appropriate id
             if (this.state.todos.length === 0) {
                 newID = 0;
             } else {
@@ -51,12 +65,16 @@ export default class MainContainer extends React.Component {
         }
     }
 
+    /**
+     * Handle checkbox-click
+     */
     checkTodo = ( id ) => {
         this.state.todos.forEach(( todo ) => {
             if (todo.id === id) {
                 todo.completed = !todo.completed;
             }
         });
+
         this.setState(
             { todos: this.state.todos },
             () => {
@@ -65,6 +83,9 @@ export default class MainContainer extends React.Component {
         );
     }
 
+    /**
+     * Delete a todo given the id
+     */
     deleteTodo = ( id ) => {
         const newTodos = this.state.todos.filter(x => x.id !== id);
         this.setState(
@@ -75,6 +96,9 @@ export default class MainContainer extends React.Component {
         );
     }
 
+    /**
+     * Delete all todos
+     */
     deleteAll = () => {
         this.setState(
             { todos: [] },

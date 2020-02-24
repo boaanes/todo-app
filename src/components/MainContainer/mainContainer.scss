@@ -1,0 +1,19 @@
+@import "node_modules/nord/src/sass/nord.scss";
+
+.app {
+    background-color: $nord6;
+    color: $nord11;
+
+    width: 80%;
+    max-width: 380px;
+   
+    margin: auto;
+    margin-top: 1rem;
+    margin-bottom: 6rem;
+   
+    padding: 2rem;
+    padding-top: 0.5rem;
+
+    border-radius: 0.3rem;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.29);
+}

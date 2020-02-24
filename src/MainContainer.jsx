@@ -24,11 +24,11 @@ export default class MainContainer extends React.Component {
         } else {
             return [];
         }
-    };
+    }
 
     saveData = () => {
         localStorage.setItem('data', JSON.stringify(this.state.todos));
-    };
+    }
 
     addNew = ( text ) => {
         if (text !== '') {
@@ -49,7 +49,21 @@ export default class MainContainer extends React.Component {
                 }
             );
         }
-    };
+    }
+
+    checkTodo = ( id ) => {
+        this.state.todos.forEach(( todo ) => {
+            if (todo.id === id) {
+                todo.completed = !todo.completed;
+            }
+        });
+        this.setState(
+            { todos: this.state.todos },
+            () => {
+                this.saveData();
+            }
+        );
+    }
 
     deleteTodo = ( id ) => {
         const newTodos = this.state.todos.filter(x => x.id !== id);
@@ -59,7 +73,7 @@ export default class MainContainer extends React.Component {
                 this.saveData();
             }
         );
-    };
+    }
 
     deleteAll = () => {
         this.setState(
@@ -68,7 +82,7 @@ export default class MainContainer extends React.Component {
                 this.saveData();
             }
         );
-    };
+    }
 
     render() {
         return(
@@ -81,7 +95,11 @@ export default class MainContainer extends React.Component {
                     }
                 />
                 <AddTodo onAddClick={this.addNew} />
-                <TodoList todoItems={this.state.todos} onDeleteClick={this.deleteTodo} />
+                <TodoList
+                    todoItems={this.state.todos}
+                    onDeleteClick={this.deleteTodo}
+                    onCheckClick={this.checkTodo}
+                />
                 <Button
                     content="delete all"
                     onClick={this.deleteAll}

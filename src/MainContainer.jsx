@@ -51,6 +51,16 @@ export default class MainContainer extends React.Component {
         }
     };
 
+    deleteTodo = ( id ) => {
+        const newTodos = this.state.todos.filter(x => x.id !== id);
+        this.setState(
+            { todos: newTodos },
+            () => {
+                this.saveData();
+            }
+        );
+    };
+
     deleteAll = () => {
         this.setState(
             { todos: [] },
@@ -71,7 +81,7 @@ export default class MainContainer extends React.Component {
                     }
                 />
                 <AddTodo onAddClick={this.addNew} />
-                <TodoList todoItems={this.state.todos} />
+                <TodoList todoItems={this.state.todos} onDeleteClick={this.deleteTodo} />
                 <Button
                     content="delete all"
                     onClick={this.deleteAll}

@@ -1,5 +1,9 @@
 import React from 'react';
-import { Input } from 'semantic-ui-react';
+
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import './addTodo.scss';
 
 export default class AddTodo extends React.Component {
     
@@ -29,16 +33,16 @@ export default class AddTodo extends React.Component {
         
         return (
             <div className="container">
-                <Input
-                    className="input-field"
-                    onChange={this.updateValue}
+                <input
+                    type="form"
+                    classname="input-field"
                     value={text}
-                    action={{
-                        content: 'add',
-                        onClick: this.handleClick
-                    }}
                     placeholder="todo..."
+                    onChange={this.updateValue}
                 />
+                <button onClick={this.handleClick}>
+                    <FontAwesomeIcon icon={faPlus} /> 
+                </button>
             </div>
         );
     }

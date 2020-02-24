@@ -111,7 +111,7 @@ export default class MainContainer extends React.Component {
     render() {
         return(
             <div className="app">
-                <h1>Do or do not, there is no try</h1>
+                <h1>Todo?</h1>
                 <Summary
                     todoCount={this.state.todos.length}
                     completedCount={
@@ -123,10 +123,6 @@ export default class MainContainer extends React.Component {
                     todoItems={this.state.todos}
                     onDeleteClick={this.deleteTodo}
                     onCheckClick={this.checkTodo}
-                />
-                <Button
-                    content="delete all"
-                    onClick={this.deleteAll}
                 />
             </div>
         );

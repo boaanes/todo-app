@@ -1,9 +1,35 @@
 @import 'node_modules/nord/src/sass/nord.scss';
-@import url('https://fonts.googleapis.com/css?family=Nunito:600&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Nunito:800&display=swap');
 
 $font-stack: 'Nunito';
 
 body {
     font-family: $font-stack;
+    font-weight: bold;
+
     background-color: $nord0;
+}
+
+button {
+    background-color: #d77a61;
+    color: #844b3b;
+
+    font-weight: bold;
+
+    height: 1.8rem;
+    width: 35px;
+
+    border: none;
+    border-radius: 0.3rem;
+    
+    cursor: pointer;
+}
+
+button:hover {    
+    background-color: #c66e55;
+}
+
+button:focus::-moz-focus-inner {
+    border: 0;
+    outline: 0;
 }

@@ -1,0 +1,16 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+input[type='form'] {
+    width: 80%;
+    color: #af9072;
+    font-weight: bold;
+    border: none;
+    border-radius: 0.3rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}

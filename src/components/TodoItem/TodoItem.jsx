@@ -1,11 +1,17 @@
 import React from 'react';
-import { Checkbox, Button } from 'semantic-ui-react';
+
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import './todoItem.scss';
 
 const TodoItem = ({ id, desc, completed, onDeleteClick, onCheckClick }) => (
-    <div>
-        <Checkbox checked={assertChecked(completed)} onChange={() => onCheckClick(id)} />
-        <div className="desc"><label>{desc}</label></div>
-        <Button content="delete" onClick={() => onDeleteClick(id)} />
+    <div className="item">
+        <input type="checkbox" className="check" checked={assertChecked(completed)} id={`todoItemCheckbox-${id}`} onChange={() => onCheckClick(id)} />
+        <div className="desc"><label style={{textDecoration: completed ? 'line-through': 'none', color: completed ? 'grey': ''}}  htmlFor={`todoItemCheckbox-${id}`}>{desc}</label></div>
+        <button className="button" onClick={() => onDeleteClick(id)}>
+            <FontAwesomeIcon icon={faTimes} />
+        </button>
     </div>
 );
 

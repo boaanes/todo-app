@@ -1,5 +1,4 @@
 import React from 'react';
-import { render } from "react-dom";
 import { Input } from 'semantic-ui-react';
 
 export default class AddTodo extends React.Component {
@@ -12,13 +11,16 @@ export default class AddTodo extends React.Component {
     }
 
     handleClick = () => {
-        const { text } = this.state;
+        const text = this.state.text;
         this.props.onAddClick(text);
+        this.setState({
+            text: ''
+        });
     };
 
-    updateValue = ( evt, {value} ) => {
+    updateValue = ( evt ) => {
         this.setState({
-            text: value
+            text: evt.target.value
         });
     };
 
@@ -32,7 +34,7 @@ export default class AddTodo extends React.Component {
                     onChange={this.updateValue}
                     value={text}
                     action={{
-                        icon: 'plus',
+                        content: 'add',
                         onClick: this.handleClick
                     }}
                     placeholder="todo..."

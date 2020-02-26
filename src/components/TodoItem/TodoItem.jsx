@@ -15,11 +15,8 @@ const TodoItem = ({ id, desc, completed, onDeleteClick, onCheckClick }) => (
     </div>
 );
 
-function assertChecked(completed) {
-    if (completed) {
-        return true;
-    }
-    return false;
+function assertChecked(b) {
+    if (b) return true; else return false;
 }
 
 export default TodoItem;

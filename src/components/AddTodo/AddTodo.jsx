@@ -45,7 +45,7 @@ export default class AddTodo extends React.Component {
                         }
                     }}
                 />
-                <button role="button" aria-label="add" onClick={this.handleClick}>
+                <button aria-label="add" onClick={this.handleClick}>
                     <FontAwesomeIcon icon={faPlus} />
                 </button>
             </div>

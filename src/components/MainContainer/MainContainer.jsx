@@ -2,15 +2,13 @@ import React from 'react';
 
 import './mainContainer.scss';
 
-import { Button } from 'semantic-ui-react';
-
 import AddTodo from '../AddTodo/AddTodo';
 import TodoList from '../TodoList/TodoList';
 import Todo from './Todo';
 import Summary from '../Summary/Summary';
 
 export default class MainContainer extends React.Component {
-        
+
     constructor(props) {
         super(props);
         const data = this.loadData(); //load LocalStorage data
@@ -18,7 +16,7 @@ export default class MainContainer extends React.Component {
             todos: data //set state
         };
     }
-    
+
     /**
      * Load the data from LocalStorage
      * If there is no data in LocalStorage, return an empty array
@@ -32,7 +30,7 @@ export default class MainContainer extends React.Component {
             return [];
         }
     }
-    
+
     /**
      * Saves the data to LocalStorage
      */
@@ -46,14 +44,14 @@ export default class MainContainer extends React.Component {
     addNew = ( text ) => {
         if (text !== '') {
             let newID;
-            
+
             //set the appropriate id
             if (this.state.todos.length === 0) {
                 newID = 0;
             } else {
                 newID = this.state.todos[this.state.todos.length - 1].id + 1;
             }
-            
+
             const ID = newID;
             const newTodos = this.state.todos.concat(new Todo(ID, text, false));
             this.setState(

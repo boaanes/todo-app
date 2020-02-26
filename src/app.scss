@@ -11,6 +11,8 @@ body {
 }
 
 button {
+    transition: 0.3s;
+
     background-color: #d77a61;
     color: #844b3b;
 
@@ -23,17 +25,19 @@ button {
     border-radius: 0.3rem;
 
     cursor: pointer;
-}
 
-button:hover {
-    background-color: #c66e55;
-}
+    &:hover {
+        transform: scale(1.2);
+        transform: matrix3d(10);
+    }
 
-button:focus::-moz-focus-inner {
-    border: none;
-}
+    &:focus::-moz-focus-inner {
+        border: none;
+    }
 
-button:focus {
-    border: 1px solid $nord3;
-    border-radius: 0.3rem;
+    &:active {
+        padding: 0px;
+        transition: 0.05s;
+        transform: scale(1.1);
+    }
 }

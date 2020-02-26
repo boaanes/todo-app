@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import './addTodo.scss';
 
 export default class AddTodo extends React.Component {
-    
+
     constructor(props) {
         super(props);
         this.state = {
@@ -30,7 +30,7 @@ export default class AddTodo extends React.Component {
 
     render() {
         const { text } = this.state;
-        
+
         return (
             <div className="container">
                 <input
@@ -39,9 +39,14 @@ export default class AddTodo extends React.Component {
                     value={text}
                     placeholder="todo..."
                     onChange={this.updateValue}
+                    onKeyPress={(e) => {
+                        if (e.charCode === 13) {
+                            if (this.state.text !== '') this.handleClick();
+                        }
+                    }}
                 />
                 <button onClick={this.handleClick}>
-                    <FontAwesomeIcon icon={faPlus} /> 
+                    <FontAwesomeIcon icon={faPlus} />
                 </button>
             </div>
         );

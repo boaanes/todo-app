@@ -35,7 +35,7 @@ export default class AddTodo extends React.Component {
             <div className="container">
                 <input
                     type="form"
-                    classname="input-field"
+                    className="input-field"
                     value={text}
                     placeholder="todo..."
                     onChange={this.updateValue}
@@ -45,7 +45,7 @@ export default class AddTodo extends React.Component {
                         }
                     }}
                 />
-                <button onClick={this.handleClick}>
+                <button role="button" aria-label="add" onClick={this.handleClick}>
                     <FontAwesomeIcon icon={faPlus} />
                 </button>
             </div>

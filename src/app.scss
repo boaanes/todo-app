@@ -21,15 +21,19 @@ button {
 
     border: none;
     border-radius: 0.3rem;
-    
+
     cursor: pointer;
 }
 
-button:hover {    
+button:hover {
     background-color: #c66e55;
 }
 
 button:focus::-moz-focus-inner {
-    border: 0;
-    outline: 0;
+    border: none;
+}
+
+button:focus {
+    border: 1px solid $nord3;
+    border-radius: 0.3rem;
 }

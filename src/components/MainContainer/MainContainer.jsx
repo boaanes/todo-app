@@ -109,7 +109,7 @@ export default class MainContainer extends React.Component {
     render() {
         return(
             <div className="app">
-                <h1>Check your life. Not boxes.</h1>
+                <h1>Think of many things, do one.</h1>
                 <Summary
                     todoCount={this.state.todos.length}
                     completedCount={

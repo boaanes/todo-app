@@ -124,6 +124,7 @@ export default class MainContainer extends React.Component {
         this.setState(
             { active: name },
             () => {
+                console.log(this.state.active);
                 this.saveData();
             }
         );

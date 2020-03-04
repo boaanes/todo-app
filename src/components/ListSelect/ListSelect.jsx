@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { faAngleUp, faAngleDown } from "@fortawesome/free-solid-svg-icons";
+import { faAngleUp, faAngleDown, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import './listSelect.scss'
@@ -36,10 +36,37 @@ export default class ListSelect extends React.Component {
         });
     }
 
-    toggleList = () => {
+    toggleList = ( id ) => {
         this.setState(prevState => ({
             listOpen: !prevState.listOpen
         }));
+    }
+
+    isActive = ( item ) => {
+        this.state.lists.forEach((item) => {
+            return (item.selected) ? true : false;
+        });
+    }
+
+    setActive = ( id, name ) => {
+        this.props.setActive(name);
+        let lists = this.state.lists;
+
+        for (var i = 0; i < lists.length; i++) {
+            if (i !== id && lists[i].selected) {
+                lists[i].selected = false;
+            } else if (i === id) {
+                lists[i].selected = true;
+            }
+        }
+
+        const updated = lists;
+        this.setState({
+            lists: updated,
+            title: name
+        });
+
+        console.log(lists);
     }
 
     render() {
@@ -55,8 +82,13 @@ export default class ListSelect extends React.Component {
                     }
                 </div>
                 {listOpen && <ul className="dd-list">
-                    {lists.map((item) => (
-                        <li className="dd-list-item" key={item.id}>{item.name}</li>
+                    {lists.map((list) => (
+                        <li
+                            className="dd-list-item"
+                            key={list.id}
+                            onClick={() => (this.setActive(list.id, list.name))}
+                            style={{display: list.selected ? 'none' : ''}}
+                        >{list.name}</li>
                     ))}
                 </ul>}
             </div>

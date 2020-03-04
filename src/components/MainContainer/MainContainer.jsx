@@ -2,6 +2,7 @@ import React from 'react';
 
 import './mainContainer.scss';
 
+import ListSelect from '../ListSelect/ListSelect'
 import AddTodo from '../AddTodo/AddTodo';
 import TodoList from '../TodoList/TodoList';
 import Todo from './Todo';
@@ -30,7 +31,7 @@ export default class MainContainer extends React.Component {
         if (data !== null && data.length !== 0) {
             return [data, Object.keys(data)[0]];
         } else {
-            return [{"default" : []}, "default"];
+            return [{"Todo-list" : []}, "Todo-list"];
         }
     }
 
@@ -119,7 +120,7 @@ export default class MainContainer extends React.Component {
     render() {
         return(
             <div className="app">
-                <h1>Think of many things, do one.</h1>
+                <ListSelect lists={Object.keys(this.state.todos)} active={this.state.active} />
                 <Summary
                     todoCount={this.state.todos[this.state.active].length}
                     completedCount={

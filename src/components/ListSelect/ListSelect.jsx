@@ -1,11 +1,12 @@
 import React from 'react';
 
-import { faAngleUp, faAngleDown, faAngleRight } from "@fortawesome/free-solid-svg-icons";
+import { faAngleUp, faAngleDown, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import onClickOutside from "react-onclickoutside";
 
 import './listSelect.scss'
 
-export default class ListSelect extends React.Component {
+class ListSelect extends React.Component {
     constructor(props) {
         super(props);
         const data = this.mapLists(this.props.lists, this.props.active);
@@ -42,12 +43,8 @@ export default class ListSelect extends React.Component {
         }));
     }
 
-    isActive = ( item ) => {
-        this.state.lists.forEach((item) => {
-            return (item.selected) ? true : false;
-        });
-    }
-
+    // TODO fix active not popping up in menu
+    // and fix summary bug
     setActive = ( id, name ) => {
         this.props.setActive(name);
         let lists = this.state.lists;
@@ -63,10 +60,34 @@ export default class ListSelect extends React.Component {
         const updated = lists;
         this.setState({
             lists: updated,
+            listOpen: false,
             title: name
         });
+    }
 
-        console.log(lists);
+    createNewList = () => {
+        const name = prompt("Enter name for new todo-list");
+
+        if (name !== null) {
+            this.props.addNewList(name);
+
+            const active = this.state.active;
+            this.setState({
+                lists: this.mapLists(this.props.lists, name),
+                listOpen: false,
+                title: name
+            }, () => (this.props.setActive(name), console.log(this.state)));
+        }
+    }
+
+    deleteList = ( id, name ) => {
+        if (this.state.listOpen) {
+            const newList = this.state.lists.filter(x => x.id !== id);
+            this.setState({
+                lists: newList
+            });
+            this.props.deleteList(name);
+        }
     }
 
     render() {
@@ -86,12 +107,15 @@ export default class ListSelect extends React.Component {
                         <li
                             className="dd-list-item"
                             key={list.id}
-                            onClick={() => (this.setActive(list.id, list.name))}
                             style={{display: list.selected ? 'none' : ''}}
-                        >{list.name}</li>
+                        ><label onClick={() => (this.setActive(list.id, list.name))}>{list.name}</label><FontAwesomeIcon className="list-delete" icon={faTrash} onClick={() => this.deleteList(list.id, list.name)} /></li>
                     ))}
+                    <li style={{textAlign: 'center'}} onClick={() => this.createNewList()}><FontAwesomeIcon icon={faPlus} /></li>
                 </ul>}
             </div>
         );
     }
 }
+
+
+export default onClickOutside(ListSelect);

@@ -6,14 +6,35 @@ ul {
 }
 
 li {
+    display: flex;
+    flex-direction: row;
     border-radius: 3px;
     transition: 0.2s;
     padding-left: 5px;
     padding-right: 5px;
+
+    &:hover {
+        background-color: #ABABABAB;
+    }
 }
 
-li:hover {
-    background-color: #ABABABAB;
+label {
+    width: 100%;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.list-delete {
+    float: right;
+    transition: 0.2s;
+    padding-top: 3px;
+
+    &:hover {
+        transform: scale(1.2);
+        cursor: pointer;
+    }
 }
 
 .dd-wrapper {
@@ -26,6 +47,10 @@ li:hover {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+
+    &:hover {
+        cursor: pointer;
+    }
 }
 
 .dd-header-title {

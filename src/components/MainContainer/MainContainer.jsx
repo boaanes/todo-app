@@ -124,7 +124,32 @@ export default class MainContainer extends React.Component {
         this.setState(
             { active: name },
             () => {
-                console.log(this.state.active);
+                this.saveData();
+            }
+        );
+    }
+
+    addNewList = ( name ) => {
+        let currentState = this.state.todos;
+        currentState[name] = []
+
+        const updated = currentState;
+        this.setState(
+            { todos: updated },
+            () => {
+                this.saveData();
+            }
+        );
+    }
+
+    deleteList = ( name ) => {
+        let newTodos = this.state.todos;
+        delete newTodos[name];
+
+        const updated = newTodos;
+        this.setState(
+            { todos: updated, active: this.state.active },
+            () => {
                 this.saveData();
             }
         );
@@ -137,6 +162,8 @@ export default class MainContainer extends React.Component {
                     lists={this.state.todos}
                     active={this.state.active}
                     setActive={this.setActive}
+                    addNewList={this.addNewList}
+                    deleteList={this.deleteList}
                 />
                 <Summary
                     todoCount={this.state.todos[this.state.active].length}

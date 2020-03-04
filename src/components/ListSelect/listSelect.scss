@@ -7,11 +7,11 @@ ul {
 
 li {
     display: flex;
-    flex-direction: row;
     border-radius: 3px;
     transition: 0.2s;
-    padding-left: 5px;
-    padding-right: 5px;
+    padding: 5px;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
 
     &:hover {
         background-color: #ABABABAB;
@@ -24,6 +24,18 @@ label {
     &:hover {
         cursor: pointer;
     }
+}
+
+
+.add-list {
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.add-icon {
+    margin: auto;
 }
 
 .list-delete {

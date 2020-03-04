@@ -43,19 +43,12 @@ class ListSelect extends React.Component {
         }));
     }
 
-    // TODO fix active not popping up in menu
-    // and fix summary bug
     setActive = ( id, name ) => {
-        this.props.setActive(name);
-        let lists = this.state.lists;
-
-        for (var i = 0; i < lists.length; i++) {
-            if (i !== id && lists[i].selected) {
-                lists[i].selected = false;
-            } else if (i === id) {
-                lists[i].selected = true;
-            }
-        }
+        let lists = this.state.lists.map((list) => {
+            if (list.selected) list.selected = false;
+            if (list.id === id) list.selected = true;
+            return list;
+        });
 
         const updated = lists;
         this.setState({
@@ -63,20 +56,22 @@ class ListSelect extends React.Component {
             listOpen: false,
             title: name
         });
+
+        this.props.setActive(name);
     }
 
     createNewList = () => {
         const name = prompt("Enter name for new todo-list");
+        const currLists = this.state.lists.map((obj) => {return obj.name});
 
-        if (name !== null) {
+        if (name !== null && !currLists.includes(name)) {
             this.props.addNewList(name);
 
-            const active = this.state.active;
             this.setState({
                 lists: this.mapLists(this.props.lists, name),
                 listOpen: false,
                 title: name
-            }, () => (this.props.setActive(name), console.log(this.state)));
+            }, () => (this.props.setActive(name)));
         }
     }
 
@@ -110,7 +105,7 @@ class ListSelect extends React.Component {
                             style={{display: list.selected ? 'none' : ''}}
                         ><label onClick={() => (this.setActive(list.id, list.name))}>{list.name}</label><FontAwesomeIcon className="list-delete" icon={faTrash} onClick={() => this.deleteList(list.id, list.name)} /></li>
                     ))}
-                    <li style={{textAlign: 'center'}} onClick={() => this.createNewList()}><FontAwesomeIcon icon={faPlus} /></li>
+                    <li className="add-list" onClick={() => this.createNewList()}><FontAwesomeIcon className="add-icon" icon={faPlus} /></li>
                 </ul>}
             </div>
         );

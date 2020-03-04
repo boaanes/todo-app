@@ -1,0 +1,11 @@
+.dd-wrapper {
+    border: 1px solid black;
+    border-radius: 3px;
+    padding: 5px;
+}
+
+.dd-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

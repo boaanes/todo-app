@@ -117,10 +117,26 @@ export default class MainContainer extends React.Component {
         );
     }
 
+    /**
+    *  Set active dropdown list
+    */
+    setActive = ( name ) => {
+        this.setState(
+            { active: name },
+            () => {
+                this.saveData();
+            }
+        );
+    }
+
     render() {
         return(
             <div className="app">
-                <ListSelect lists={Object.keys(this.state.todos)} active={this.state.active} />
+                <ListSelect
+                    lists={this.state.todos}
+                    active={this.state.active}
+                    setActive={this.setActive}
+                />
                 <Summary
                     todoCount={this.state.todos[this.state.active].length}
                     completedCount={

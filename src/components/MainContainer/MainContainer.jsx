@@ -27,7 +27,7 @@ export default class MainContainer extends React.Component {
      * Otherwise return the JSON data
      */
     loadData = () => {
-        const data = JSON.parse(localStorage.getItem('data'));
+        const data = JSON.parse(localStorage.getItem('store'));
         if (data !== null && data.length !== 0) {
             return [data, Object.keys(data)[0]];
         } else {
@@ -39,7 +39,7 @@ export default class MainContainer extends React.Component {
      * Saves the data to LocalStorage
      */
     saveData = () => {
-        localStorage.setItem('data', JSON.stringify(this.state.todos));
+        localStorage.setItem('store', JSON.stringify(this.state.todos));
     }
 
     /**

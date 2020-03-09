@@ -93,8 +93,8 @@ class ListSelect extends React.Component {
                 <div className="dd-header" onClick={() => this.toggleList()}>
                     <div className="dd-header-title">{title}</div>
                     {listOpen
-                        ? <FontAwesomeIcon icon={faAngleUp} size="2x" />
-                        : <FontAwesomeIcon icon={faAngleDown} size="2x" />
+                        ? <FontAwesomeIcon className="dd-icon" icon={faAngleUp} size="2x" />
+                        : <FontAwesomeIcon className="dd-icon" icon={faAngleDown} size="2x" />
                     }
                 </div>
                 {listOpen && <ul className="dd-list">

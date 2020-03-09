@@ -165,12 +165,14 @@ export default class MainContainer extends React.Component {
                     addNewList={this.addNewList}
                     deleteList={this.deleteList}
                 />
+                <br/>
                 <Summary
                     todoCount={this.state.todos[this.state.active].length}
                     completedCount={
                         this.state.todos[this.state.active].filter(x => x.completed === true).length
                     }
                 />
+                <br/>
                 <AddTodo onAddClick={this.addNew} />
                 <TodoList
                     todoItems={this.state.todos[this.state.active]}

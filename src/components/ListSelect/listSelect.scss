@@ -47,6 +47,7 @@ ul {
 }
 
 li {
+    position: relative;
     border-radius: 0px;
     transition: 0.5s;
     padding: 5px;
@@ -96,6 +97,8 @@ label {
 }
 
 .list-delete {
+    right: 10px;
+    position: absolute;
     transition: 0.1s;
     padding-top: 3px;
 

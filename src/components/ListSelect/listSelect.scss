@@ -1,3 +1,12 @@
+@import 'node_modules/nord/src/sass/nord.scss';
+
+$anim-underline: all 0.1s ease-in-out;
+
+p {
+    margin: 0;
+    padding: 0;
+}
+
 ul {
     background-color: #FFFFFF;
     border-radius: 3px;
@@ -5,46 +14,96 @@ ul {
     padding-left: 0;
 }
 
-li {
-    display: flex;
-    border-radius: 3px;
-    transition: 0.2s;
-    padding: 5px;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+.dd-icon {
+    margin-top: 10px;
+    margin-right: 10px;
+    transition: 0.1s;
 
     &:hover {
-        background-color: #ABABABAB;
+        transform: scale(1.4);
     }
 }
 
-label {
+.dd-list-div {
+    display: flex;
+    justify-content: space-between;
     width: 100%;
 
     &:hover {
         cursor: pointer;
+        label {
+            cursor: pointer;
+            &:before,
+            &:after {
+                width: 50%;
+            }
+        }
     }
 }
 
+.dd-list-item {
+    display: flex;
+    justify-content: space-between;
+}
 
-.add-list {
+li {
+    position: relative;
+    border-radius: 0px;
+    transition: 0.5s;
+    padding: 5px;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    text-decoration: none;
+}
 
-    &:hover {
-        cursor: pointer;
+label {
+    margin: 0 auto;
+    position: relative;
+    text-decoration: none;
+
+    &:before,
+    &:after {
+        content: "";
+        position: absolute;
+        bottom: 0px;
+        width: 0px;
+        height: 2px;
+        margin: 0;
+        transition: $anim-underline;
+        background-color: $nord11;
+    }
+    &:before {
+        left: 50%;
+    }
+    &:after {
+        right: 50%;
     }
 }
 
 .add-icon {
+    transition: 0.1s;
     margin: auto;
 }
 
+.add-list {
+    display: flex;
+    justify-content: space-between;
+    &:hover {
+        cursor: pointer;
+        .add-icon {
+            transform: scale(1.4);
+        }
+    }
+}
+
 .list-delete {
-    float: right;
-    transition: 0.2s;
+    right: 10px;
+    position: absolute;
+    transition: 0.1s;
     padding-top: 3px;
 
     &:hover {
-        transform: scale(1.2);
+        transform: scale(1.4);
         cursor: pointer;
     }
 }

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { faAngleUp, faAngleDown, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import onClickOutside from "react-onclickoutside";
+//import onClickOutside from "react-onclickoutside";
 
 import './listSelect.scss'
 
@@ -93,17 +93,18 @@ class ListSelect extends React.Component {
                 <div className="dd-header" onClick={() => this.toggleList()}>
                     <div className="dd-header-title">{title}</div>
                     {listOpen
-                        ? <FontAwesomeIcon icon={faAngleUp} size="2x" />
-                        : <FontAwesomeIcon icon={faAngleDown} size="2x" />
+                        ? <FontAwesomeIcon className="dd-icon" icon={faAngleUp} size="2x" />
+                        : <FontAwesomeIcon className="dd-icon" icon={faAngleDown} size="2x" />
                     }
                 </div>
                 {listOpen && <ul className="dd-list">
                     {lists.map((list) => (
-                        <li
-                            className="dd-list-item"
-                            key={list.id}
-                            style={{display: list.selected ? 'none' : ''}}
-                        ><label onClick={() => (this.setActive(list.id, list.name))}>{list.name}</label><FontAwesomeIcon className="list-delete" icon={faTrash} onClick={() => this.deleteList(list.id, list.name)} /></li>
+                            <li className="dd-list-item" key={list.id} style={{display: list.selected ? 'none' : ''}}>
+                                <div className="dd-list-div" onClick={() => (this.setActive(list.id, list.name))}>
+                                    <label>{list.name}</label>
+                                </div>
+                                <FontAwesomeIcon className="list-delete" icon={faTrash} onClick={() => this.deleteList(list.id, list.name)} />
+                            </li>
                     ))}
                     <li className="add-list" onClick={() => this.createNewList()}><FontAwesomeIcon className="add-icon" icon={faPlus} /></li>
                 </ul>}
@@ -113,4 +114,5 @@ class ListSelect extends React.Component {
 }
 
 
-export default onClickOutside(ListSelect);
+//export default onClickOutside(ListSelect);
+export default ListSelect;

@@ -2,19 +2,27 @@
 
 $anim-underline: all 0.1s ease-in-out;
 
-p {
-    margin: 0;
-    padding: 0;
+.wrapper {
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
-ul {
-    background-color: #FFFFFF;
-    border-radius: 3px;
-    list-style-type: none;
-    padding-left: 0;
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    &:hover {
+        cursor: pointer;
+    }
 }
 
-.dd-icon {
+.header-title {
+    font-size: 2rem;
+}
+
+.dropdown-icon {
     margin-top: 10px;
     margin-right: 10px;
     transition: 0.1s;
@@ -24,29 +32,21 @@ ul {
     }
 }
 
-.dd-list-div {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
+/* NOTE: not in use atm, may be tweaked for different dropdown animation */
+.react-slidedown.slidedown {
 
-    &:hover {
-        cursor: pointer;
-        label {
-            cursor: pointer;
-            &:before,
-            &:after {
-                width: 50%;
-            }
-        }
-    }
 }
 
-.dd-list-item {
-    display: flex;
-    justify-content: space-between;
+ul {
+    background-color: #FFFFFF;
+    border-radius: 3px;
+    list-style-type: none;
+    padding-left: 0;
 }
 
 li {
+    display: flex;
+    justify-content: space-between;
     position: relative;
     border-radius: 0px;
     transition: 0.5s;
@@ -54,35 +54,59 @@ li {
     padding-left: 0.5rem;
     padding-right: 0.5rem;
     text-decoration: none;
-}
 
-label {
-    margin: 0 auto;
-    position: relative;
-    text-decoration: none;
+    div {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
 
-    &:before,
-    &:after {
-        content: "";
+        &:hover {
+            cursor: pointer;
+            label {
+                cursor: pointer;
+                &:before,
+                &:after {
+                    width: 50%;
+                }
+            }
+        }
+    }
+
+    label {
+        margin: 0 auto;
+        position: relative;
+        text-decoration: none;
+
+        &:before,
+        &:after {
+            content: "";
+            position: absolute;
+            bottom: 0px;
+            width: 0px;
+            height: 2px;
+            margin: 0;
+            transition: $anim-underline;
+            background-color: $nord11;
+        }
+        &:before {
+            left: 50%;
+        }
+        &:after {
+            right: 50%;
+        }
+    }
+
+    .delete-icon {
+        right: 10px;
         position: absolute;
-        bottom: 0px;
-        width: 0px;
-        height: 2px;
-        margin: 0;
-        transition: $anim-underline;
-        background-color: $nord11;
-    }
-    &:before {
-        left: 50%;
-    }
-    &:after {
-        right: 50%;
-    }
-}
+        transition: 0.1s;
+        padding-top: 3px;
 
-.add-icon {
-    transition: 0.1s;
-    margin: auto;
+        &:hover {
+            transform: scale(1.4);
+            cursor: pointer;
+        }
+    }
 }
 
 .add-list {
@@ -96,34 +120,7 @@ label {
     }
 }
 
-.list-delete {
-    right: 10px;
-    position: absolute;
+.add-icon {
     transition: 0.1s;
-    padding-top: 3px;
-
-    &:hover {
-        transform: scale(1.4);
-        cursor: pointer;
-    }
-}
-
-.dd-wrapper {
-    padding: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
-}
-
-.dd-header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-
-    &:hover {
-        cursor: pointer;
-    }
-}
-
-.dd-header-title {
-    font-size: 2rem;
+    margin: auto;
 }

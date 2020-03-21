@@ -2,7 +2,7 @@ import React from 'react';
 
 import './mainContainer.scss';
 
-import ListSelect from '../ListSelect/ListSelect'
+import ListSelect from '../ListSelect/ListSelect';
 import AddTodo from '../AddTodo/AddTodo';
 import TodoList from '../TodoList/TodoList';
 import Todo from './Todo';
@@ -19,6 +19,7 @@ export default class MainContainer extends React.Component {
             todos: data, //set state
             active: initList
         };
+        this.saveData();
     }
 
     /**
@@ -156,26 +157,28 @@ export default class MainContainer extends React.Component {
     }
 
     render() {
+        const {todos, active} = this.state;
+
         return(
             <div className="app">
                 <ListSelect
-                    lists={this.state.todos}
-                    active={this.state.active}
+                    lists={todos}
+                    active={active}
                     setActive={this.setActive}
                     addNewList={this.addNewList}
                     deleteList={this.deleteList}
                 />
                 <br/>
                 <Summary
-                    todoCount={this.state.todos[this.state.active].length}
+                    todoCount={todos[active].length}
                     completedCount={
-                        this.state.todos[this.state.active].filter(x => x.completed === true).length
+                        todos[active].filter(x => x.completed === true).length
                     }
                 />
                 <br/>
                 <AddTodo onAddClick={this.addNew} />
                 <TodoList
-                    todoItems={this.state.todos[this.state.active]}
+                    todoItems={todos[active]}
                     onDeleteClick={this.deleteTodo}
                     onCheckClick={this.checkTodo}
                 />

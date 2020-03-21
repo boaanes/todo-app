@@ -12,7 +12,7 @@ const AddTodo = ( props ) => {
     const handleClick = useCallback(() => {
         props.onAddClick(text);
         setText('');
-    });
+    }, [props, text]);
 
     return (
         <div className="container">
@@ -22,7 +22,7 @@ const AddTodo = ( props ) => {
                 value={text}
                 placeholder="todo..."
                 onChange={( evt ) => setText(evt.target.value)}
-                onKeyPress={( evt ) => {if (evt.charCode === 13 && text !== '') handleClick();}}
+                onKeyPress={( evt ) => {if (evt.charCode === 13 && text !== '') handleClick()}}
             />
             <button aria-label="add" onClick={handleClick}>
                 <FontAwesomeIcon icon={faPlus} />

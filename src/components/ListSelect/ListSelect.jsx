@@ -1,122 +1,95 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import { faAngleUp, faAngleDown, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {SlideDown} from 'react-slidedown'
-import 'react-slidedown/lib/slidedown.css'
-//import onClickOutside from "react-onclickoutside";
+import { SlideDown } from 'react-slidedown';
+import 'react-slidedown/lib/slidedown.css';
 
-import './listSelect.scss'
+import './listSelect.scss';
 
-class ListSelect extends React.Component {
-    constructor(props) {
-        super(props);
-        const data = this.mapLists(this.props.lists, this.props.active);
-        this.state = {
-            lists: data,
-            listOpen: false,
-            title: this.props.active
-        }
-    }
+const mapLists = ( data, active ) => {
+    let output = [];
 
-    mapLists = (data, active) => {
-        let output = [];
-
-        Object.keys(data).forEach((item, i) => {
-            output.push({
-                id: i,
-                name: item,
-                selected: (item === active) ? true : false
-            });
+    Object.keys(data).forEach((item, i) => {
+        output.push({
+            id: i,
+            name: item,
+            selected: (item === active) ? true : false
         });
+    });
 
-        return output;
-    }
+    return output;
+};
 
-    handleClickOutside = () => {
-        this.setState({
-            listOpen: false
-        });
-    }
+const ListSelect = ( props ) => {
 
-    toggleList = ( id ) => {
-        this.setState(prevState => ({
-            listOpen: !prevState.listOpen
-        }));
-    }
+    const [lists, setLists] = useState(() => mapLists(props.lists, props.active));
+    const [title, setTitle] = useState(props.active);
+    const [listOpen, setListOpen] = useState(false);
 
-    setActive = ( id, name ) => {
-        let lists = this.state.lists.map((list) => {
-            if (list.selected) list.selected = false;
-            if (list.id === id) list.selected = true;
-            return list;
-        });
+    // making sure title is always the active list
+    useEffect(() => {
+        setTitle(props.active)
+    }, [props]);
 
-        const updated = lists;
-        this.setState({
-            lists: updated,
-            listOpen: false,
-            title: name
-        });
+    const setActive = useCallback(( id, name ) => {
+        setLists(
+            lists.map((list) => {
+                if (list.selected) list.selected = false;
+                if (list.id === id) list.selected = true;
+                return list;
+            })
+        );
 
-        this.props.setActive(name);
-    }
+        props.setActive(name);
+    }, [props, lists]);
 
-    createNewList = () => {
+    // TODO: make custom dialog window
+    const createNewList = useCallback(() => {
         const name = prompt("Enter name for new todo-list");
-        const currLists = this.state.lists.map((obj) => {return obj.name});
+        const currLists = lists.map((obj) => {return obj.name});
 
         if (name !== null && !currLists.includes(name)) {
-            this.props.addNewList(name);
-
-            this.setState({
-                lists: this.mapLists(this.props.lists, name),
-                listOpen: false,
-                title: name
-            }, () => (this.props.setActive(name)));
+            props.addNewList(name);
+            setLists(mapLists(props.lists, name));
+            setListOpen(false);
+            props.setActive(name);
         }
-    }
+    }, [props, lists]);
 
-    deleteList = ( id, name ) => {
-        if (this.state.listOpen) {
-            const newList = this.state.lists.filter(x => x.id !== id);
-            this.setState({
-                lists: newList
-            });
-            this.props.deleteList(name);
+    const deleteList = useCallback((id, name) => {
+        if (listOpen) {
+            setLists(prevLists => prevLists.filter(list => list.id !== id));
+            props.deleteList(name); // TODO: use id instead of name
         }
-    }
+    }, [props, listOpen]);
 
-    render() {
-        const{ lists, listOpen, title } = this.state
-
-        return(
-            <div className="wrapper">
-                <div className="header" onClick={() => this.toggleList()}>
-                    <div className="header-title">{title}</div>
-                    {listOpen
-                        ? <FontAwesomeIcon className="dropdown-icon" icon={faAngleUp} size="2x" />
-                        : <FontAwesomeIcon className="dropdown-icon" icon={faAngleDown} size="2x" />
-                    }
-                </div>
-                <SlideDown className="slidedown">
+    // TODO: replace dropdown icon with one that rotates
+    return (
+        <div className="wrapper">
+            <div className="header" onClick={() => setListOpen(prevListOpen => !prevListOpen)}>
+                <div className="header-title">{title}</div>
+                {listOpen
+                    ? <FontAwesomeIcon className="dropdown-icon" icon={faAngleUp} size="2x" />
+                    : <FontAwesomeIcon className="dropdown-icon" icon={faAngleDown} size="2x" />
+                }
+            </div>
+            <SlideDown clasname="sliedown">
                 {listOpen && <ul>
                     {lists.map((list) => (
-                            <li key={list.id} style={{display: list.selected ? 'none' : ''}}>
-                                <div onClick={() => (this.setActive(list.id, list.name))}>
-                                    <label>{list.name}</label>
-                                </div>
-                                <FontAwesomeIcon className="delete-icon" icon={faTrash} onClick={() => this.deleteList(list.id, list.name)} />
-                            </li>
+                        <li key={list.id} style={{display: list.selected ? 'none' : ''}}>
+                            <div onClick={() => setActive(list.id, list.name)}>
+                                <label>{list.name}</label>
+                            </div>
+                            <FontAwesomeIcon className="delete-icon" icon={faTrash} onClick={() => deleteList(list.id, list.name)} />
+                        </li>
                     ))}
-                    <li className="add-list" onClick={() => this.createNewList()}><FontAwesomeIcon className="add-icon" icon={faPlus} /></li>
+                    <li className="add-list" onClick={() => createNewList()}><FontAwesomeIcon className="add-icon" icon={faPlus} /></li>
                 </ul>}
-                </SlideDown>
-            </div>
-        );
-    }
-}
+            </SlideDown>
+        </div>
+    );
 
+};
 
-//export default onClickOutside(ListSelect);
 export default ListSelect;

@@ -1,54 +1,35 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import './addTodo.scss';
 
-export default class AddTodo extends React.Component {
+const AddTodo = ( props ) => {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            text: ''
-        };
-    }
+    const [text, setText] = useState('');
 
-    handleClick = () => {
-        const text = this.state.text;
-        this.props.onAddClick(text);
-        this.setState({
-            text: ''
-        });
-    };
+    const handleClick = useCallback(() => {
+        props.onAddClick(text);
+        setText('');
+    });
 
-    updateValue = ( evt ) => {
-        this.setState({
-            text: evt.target.value
-        });
-    };
+    return (
+        <div className="container">
+            <input
+                type="form"
+                className="input-field"
+                value={text}
+                placeholder="todo..."
+                onChange={( evt ) => setText(evt.target.value)}
+                onKeyPress={( evt ) => {if (evt.charCode === 13 && text !== '') handleClick();}}
+            />
+            <button aria-label="add" onClick={handleClick}>
+                <FontAwesomeIcon icon={faPlus} />
+            </button>
+        </div>
+    );
 
-    render() {
-        const { text } = this.state;
+};
 
-        return (
-            <div className="container">
-                <input
-                    type="form"
-                    className="input-field"
-                    value={text}
-                    placeholder="todo..."
-                    onChange={this.updateValue}
-                    onKeyPress={(e) => {
-                        if (e.charCode === 13) {
-                            if (this.state.text !== '') this.handleClick();
-                        }
-                    }}
-                />
-                <button aria-label="add" onClick={this.handleClick}>
-                    <FontAwesomeIcon icon={faPlus} />
-                </button>
-            </div>
-        );
-    }
-}
+export default AddTodo;

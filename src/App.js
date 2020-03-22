@@ -1,12 +1,12 @@
 import React from 'react';
 import './app.scss';
 
-import MainContainer from './components/MainContainer/MainContainer';
+import MainContainerHooks from './components/MainContainer/MainContainerHooks';
 import Footer from './components/Footer/Footer'
 
 const App = () => (
     <div className="container">
-        <MainContainer />
+        <MainContainerHooks />
         <Footer />
     </div>
 )

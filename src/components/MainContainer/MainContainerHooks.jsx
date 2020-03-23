@@ -30,7 +30,6 @@ const MainContainerHooks = ( props ) => {
 
     const newTodo = useCallback(( text ) => {
         if (text !== '') {
-            console.log("adding: " + text);
             const id = (todos[active].length === 0) ? 0 : todos[active][todos[active].length - 1].id + 1;
             const newList = todos[active].concat(new Todo(id, text, false));
 
@@ -50,7 +49,6 @@ const MainContainerHooks = ( props ) => {
     }, [todos, active]);
 
     const deleteTodo = useCallback(( id ) => {
-        console.log("delete" + id);
         const newList = todos[active].filter(todo => todo.id !== id);
 
         let updated = todos;

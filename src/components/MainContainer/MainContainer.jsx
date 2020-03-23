@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import './mainContainer.scss';
 
@@ -8,181 +8,83 @@ import TodoList from '../TodoList/TodoList';
 import Todo from './Todo';
 import Summary from '../Summary/Summary';
 
-export default class MainContainer extends React.Component {
+// TODO: make this return last active as active
+const getInitialState = () => {
+    const data = JSON.parse(localStorage.getItem('store'));
+    if (data !== null && data.length !== 0) return [data, Object.keys(data)[0]];
+    else return [{"Todo-list" : []}, "Todo-list"];
+}
 
-    constructor(props) {
-        super(props);
-        const raw = this.loadData(); //load LocalStorage data
-        const data = raw[0];
-        const initList = raw[1];
-        this.state = {
-            todos: data, //set state
-            active: initList
-        };
-        this.saveData();
-    }
+const MainContainer = ( props ) => {
 
-    /**
-     * Load the data from LocalStorage
-     * If there is no data in LocalStorage, return an empty array
-     * Otherwise return the JSON data
-     */
-    loadData = () => {
-        const data = JSON.parse(localStorage.getItem('store'));
-        if (data !== null && data.length !== 0) {
-            return [data, Object.keys(data)[0]];
-        } else {
-            return [{"Todo-list" : []}, "Todo-list"];
-        }
-    }
+    const [todos, setTodos] = useState(() => getInitialState()[0]);
+    const [active, setActive] = useState(() => getInitialState()[1]);
 
-    /**
-     * Saves the data to LocalStorage
-     */
-    saveData = () => {
-        localStorage.setItem('store', JSON.stringify(this.state.todos));
-    }
+    useEffect(() => {
+        saveData();
+    });
 
-    /**
-     * Add a new todo item to the list
-     */
-    addNew = ( text ) => {
+    const saveData = useCallback(() => {
+        localStorage.setItem('store', JSON.stringify(todos));
+    }, [todos]);
+
+    const newTodo = useCallback(( text ) => {
         if (text !== '') {
-            const currList = this.state.todos[this.state.active];
-            let newID;
-            //set the appropriate id
-            if (currList.length === 0) {
-                newID = 0;
-            } else {
-                newID = currList[currList.length - 1].id + 1;
-            }
+            const id = (todos[active].length === 0) ? 0 : todos[active][todos[active].length - 1].id + 1;
+            const newList = todos[active].concat(new Todo(id, text, false));
 
-            const ID = newID;
-            const newList = this.state.todos[this.state.active].concat(new Todo(ID, text, false));
-            let newData = this.state.todos;
-            newData[this.state.active] = newList;
-            const updated = newData;
-            this.setState(
-                { todos: updated },
-                () => {
-                    this.saveData();
-                }
-            );
+            setTodos({...todos, [active]: newList});
         }
-    }
+    }, [todos, active]);
 
-    /**
-     * Handle checkbox-click
-     */
-    checkTodo = ( id ) => {
-        this.state.todos[this.state.active].forEach(( todo ) => {
-            if (todo.id === id) {
-                todo.completed = !todo.completed;
-            }
+    const checkTodo = useCallback(( id ) => {
+        const newList = todos[active];
+        newList.forEach(( todo ) => {
+            if (todo.id === id) todo.completed = !todo.completed;
         });
 
-        this.setState(
-            { todos: this.state.todos },
-            () => {
-                this.saveData();
-            }
-        );
-    }
+        setTodos({...todos, [active]: newList})
+    }, [todos, active]);
 
-    /**
-     * Delete a todo given the id
-     */
-    deleteTodo = ( id ) => {
-        const newList = this.state.todos[this.state.active].filter(x => x.id !== id);
-        let newData = this.state.todos;
-        newData[this.state.active] = newList;
-        const updated = newData;
-        this.setState(
-            { todos: updated },
-            () => {
-                this.saveData();
-            }
-        );
-    }
+    const deleteTodo = useCallback(( id ) => {
+        const newList = todos[active].filter(todo => todo.id !== id);
+        setTodos({...todos, [active]: newList});
+    }, [todos, active]);
 
-    /**
-     * Delete all todos
-     * currently not used at all
-     */
-    deleteAll = () => {
-        this.setState(
-            { todos: [] },
-            () => {
-                this.saveData();
-            }
-        );
-    }
+    return(
+        <div className="app">
+            <ListSelect
+                lists={todos}
+                active={active}
+                setActive={setActive}
+                addNewList={( name ) => {
+                    setTodos(prevTodos => {
+                        prevTodos[name] = [];
+                        return prevTodos;
+                    });
+                }}
+                deleteList={( name ) => {
+                    setTodos(prevTodos => {
+                        delete prevTodos[name];
+                        saveData(); // needed, because it doesnt rerender parent
+                        return prevTodos;
+                    });
+                }}
+            />
+            <br />
+            <Summary
+                todoCount={todos[active].length}
+                completedCount={todos[active].filter(todo => todo.completed === true).length}
+            />
+            <br />
+            <AddTodo onAddClick={newTodo} />
+            <TodoList
+                todoItems={todos[active]}
+                onDeleteClick={deleteTodo}
+                onCheckClick={checkTodo}
+            />
+        </div>
+    );
+};
 
-    /**
-    *  Set active dropdown list
-    */
-    setActive = ( name ) => {
-        this.setState(
-            { active: name },
-            () => {
-                this.saveData();
-            }
-        );
-    }
-
-    addNewList = ( name ) => {
-        let currentState = this.state.todos;
-        currentState[name] = []
-
-        const updated = currentState;
-        this.setState(
-            { todos: updated },
-            () => {
-                this.saveData();
-            }
-        );
-    }
-
-    deleteList = ( name ) => {
-        let newTodos = this.state.todos;
-        delete newTodos[name];
-
-        const updated = newTodos;
-        this.setState(
-            { todos: updated, active: this.state.active },
-            () => {
-                this.saveData();
-            }
-        );
-    }
-
-    render() {
-        const {todos, active} = this.state;
-
-        return(
-            <div className="app">
-                <ListSelect
-                    lists={todos}
-                    active={active}
-                    setActive={this.setActive}
-                    addNewList={this.addNewList}
-                    deleteList={this.deleteList}
-                />
-                <br/>
-                <Summary
-                    todoCount={todos[active].length}
-                    completedCount={
-                        todos[active].filter(x => x.completed === true).length
-                    }
-                />
-                <br/>
-                <AddTodo onAddClick={this.addNew} />
-                <TodoList
-                    todoItems={todos[active]}
-                    onDeleteClick={this.deleteTodo}
-                    onCheckClick={this.checkTodo}
-                />
-            </div>
-        );
-    }
-}
+export default MainContainer;

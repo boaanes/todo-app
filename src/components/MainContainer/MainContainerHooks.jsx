@@ -33,27 +33,22 @@ const MainContainerHooks = ( props ) => {
             const id = (todos[active].length === 0) ? 0 : todos[active][todos[active].length - 1].id + 1;
             const newList = todos[active].concat(new Todo(id, text, false));
 
-            let updated = todos;
-            updated[active] = newList;
-            setTodos({...todos, active: updated});
+            setTodos({...todos, [active]: newList});
         }
     }, [todos, active]);
 
-
     const checkTodo = useCallback(( id ) => {
-        let updated = todos[active].forEach(( todo ) => {
+        const newList = todos[active];
+        newList.forEach(( todo ) => {
             if (todo.id === id) todo.completed = !todo.completed;
         });
 
-        setTodos({...todos, active: updated});
+        setTodos({...todos, [active]: newList})
     }, [todos, active]);
 
     const deleteTodo = useCallback(( id ) => {
         const newList = todos[active].filter(todo => todo.id !== id);
-
-        let updated = todos;
-        updated[active] = newList;
-        setTodos({...todos, active: updated});
+        setTodos({...todos, [active]: newList});
     }, [todos, active]);
 
     return(

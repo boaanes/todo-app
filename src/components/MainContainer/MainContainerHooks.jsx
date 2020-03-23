@@ -20,6 +20,10 @@ const MainContainerHooks = ( props ) => {
     const [todos, setTodos] = useState(() => getInitialState()[0]);
     const [active, setActive] = useState(() => getInitialState()[1]);
 
+    useEffect(() => {
+        saveData();
+    });
+
     const saveData = useCallback(() => {
         localStorage.setItem('store', JSON.stringify(todos));
     }, [todos]);
@@ -29,25 +33,29 @@ const MainContainerHooks = ( props ) => {
             console.log("adding: " + text);
             const id = (todos[active].length === 0) ? 0 : todos[active][todos[active].length - 1].id + 1;
             const newList = todos[active].concat(new Todo(id, text, false));
-            setTodos({ ...todos, active: newList});
+
+            let updated = todos;
+            updated[active] = newList;
+            setTodos({...todos, active: updated});
         }
     }, [todos, active]);
 
 
     const checkTodo = useCallback(( id ) => {
-        console.log("check" + id);
-        setTodos(( prevTodos ) => {
-            prevTodos[active].forEach(( todo ) => {
-                if (todo.id === id) todo.completed = !todo.completed;
-            });
-            return prevTodos;
+        let updated = todos[active].forEach(( todo ) => {
+            if (todo.id === id) todo.completed = !todo.completed;
         });
-    }, [active]);
+
+        setTodos({...todos, active: updated});
+    }, [todos, active]);
 
     const deleteTodo = useCallback(( id ) => {
         console.log("delete" + id);
         const newList = todos[active].filter(todo => todo.id !== id);
-        setTodos({ ...todos, active: newList});
+
+        let updated = todos;
+        updated[active] = newList;
+        setTodos({...todos, active: updated});
     }, [todos, active]);
 
     return(

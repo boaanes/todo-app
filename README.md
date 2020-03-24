@@ -1,8 +1,7 @@
 # Todo App
 A simple todo web-app written in ReactJS and hosted on firebase.
+Primarily developed as a project for teaching myself React.
 Check it out [here!](https://aanes.tech/)
-
-Hobby project developed by [me.](https://github.com/boaanes/)
 
 ## Project setup instructions
 1. Clone this repository.

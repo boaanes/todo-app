@@ -11,8 +11,7 @@ import Summary from '../Summary/Summary';
 // TODO: make this return last active as active
 const getInitialState = () => {
     const data = JSON.parse(localStorage.getItem('store'));
-    if (data !== null && data.length !== 0) return [data, Object.keys(data)[0]];
-    else return [{"Todo-list" : []}, "Todo-list"];
+    return (data !== null && data.length !== 0) ? [data, Object.keys(data)[0]] : [{"Todo-list" : []}, "Todo-list"];
 }
 
 const MainContainer = ( props ) => {

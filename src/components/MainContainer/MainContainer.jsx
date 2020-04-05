@@ -70,12 +70,10 @@ const MainContainer = ( props ) => {
                     });
                 }}
             />
-            <br />
             <Summary
                 todoCount={todos[active].length}
                 completedCount={todos[active].filter(todo => todo.completed === true).length}
             />
-            <br />
             <AddTodo onAddClick={newTodo} />
             <TodoList
                 todoItems={todos[active]}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
-import { faAngleUp, faAngleDown, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faAngleUp, faAngleDown, faPlus, faTrash, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SlideDown } from 'react-slidedown';
 import 'react-slidedown/lib/slidedown.css';
@@ -64,15 +64,24 @@ const ListSelect = ( props ) => {
         }
     }, [props, listOpen]);
 
+    const handleIcon = () => {
+        return (listOpen) ? faAngleUp : faAngleDown;
+    }
+
     // TODO: replace dropdown icon with one that rotates
     return (
         <div className="wrapper">
-            <div className="header" onClick={() => setListOpen(prevListOpen => !prevListOpen)}>
+            <div className="header">
                 <div className="header-title">{title}</div>
-                {listOpen
-                    ? <FontAwesomeIcon className="dropdown-icon" icon={faAngleUp} size="2x" />
-                    : <FontAwesomeIcon className="dropdown-icon" icon={faAngleDown} size="2x" />
-                }
+                <div>
+                    <FontAwesomeIcon className="edit-icon" icon={faEdit} size="2x" />
+                    <FontAwesomeIcon
+                        className={(listOpen) ? "dropdown-icon-down" : "dropdown-icon-up"}
+                        icon={faAngleUp}
+                        size="2x"
+                        onClick={() => setListOpen(prevListOpen => !prevListOpen)}
+                    />
+                </div>
             </div>
             <SlideDown clasname="sliedown">
                 {listOpen && <ul>

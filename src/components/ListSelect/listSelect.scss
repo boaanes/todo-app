@@ -22,10 +22,30 @@ $anim-underline: all 0.1s ease-in-out;
     font-size: 2rem;
 }
 
-.dropdown-icon {
+.edit-icon {
+    margin-right: 20px;
+    transition: 0.1s;
+
+    &:hover {
+        transform: scale(1.2);
+    }
+}
+
+.dropdown-icon-up {
     margin-top: 10px;
     margin-right: 10px;
-    transition: 0.1s;
+    transition: 0.3s;
+
+    &:hover {
+        transform: scale(1.4);
+    }
+}
+
+.dropdown-icon-down {
+    margin-top: 10px;
+    margin-right: 10px;
+    transition: 0.3s;
+    transform: rotate(-180deg);
 
     &:hover {
         transform: scale(1.4);

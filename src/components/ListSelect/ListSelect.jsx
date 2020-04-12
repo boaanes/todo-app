@@ -68,7 +68,6 @@ const ListSelect = ( props ) => {
         return (listOpen) ? faAngleUp : faAngleDown;
     }
 
-    // TODO: replace dropdown icon with one that rotates
     return (
         <div className="wrapper">
             <div className="header">
@@ -76,7 +75,7 @@ const ListSelect = ( props ) => {
                 <div>
                     <FontAwesomeIcon className="edit-icon" icon={faEdit} size="2x" />
                     <FontAwesomeIcon
-                        className={(listOpen) ? "dropdown-icon-down" : "dropdown-icon-up"}
+                        className={(listOpen) ? "dropdown-icon-up" : "dropdown-icon-down"}
                         icon={faAngleUp}
                         size="2x"
                         onClick={() => setListOpen(prevListOpen => !prevListOpen)}

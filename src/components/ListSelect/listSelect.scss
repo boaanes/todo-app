@@ -12,10 +12,6 @@ $anim-underline: all 0.1s ease-in-out;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-
-    &:hover {
-        cursor: pointer;
-    }
 }
 
 .header-title {
@@ -23,11 +19,13 @@ $anim-underline: all 0.1s ease-in-out;
 }
 
 .edit-icon {
-    margin-right: 20px;
+    margin-right: 10px;
     transition: 0.1s;
+    transform: scale(0.8);
 
     &:hover {
-        transform: scale(1.2);
+        transform: scale(1);
+        cursor: pointer;
     }
 }
 
@@ -37,7 +35,7 @@ $anim-underline: all 0.1s ease-in-out;
     transition: 0.3s;
 
     &:hover {
-        transform: scale(1.4);
+        cursor: pointer;
     }
 }
 
@@ -48,7 +46,7 @@ $anim-underline: all 0.1s ease-in-out;
     transform: rotate(-180deg);
 
     &:hover {
-        transform: scale(1.4);
+        cursor: pointer;
     }
 }
 

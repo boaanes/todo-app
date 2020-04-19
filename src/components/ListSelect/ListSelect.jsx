@@ -48,8 +48,8 @@ const ListSelect = ( props ) => {
     }, [props, lists]);
 
     // TODO: make custom dialog window
-    const createNewList = useCallback(() => {
-        const name = prompt("Enter name for new todo-list");
+    const createNewList = useCallback(( name ) => {
+        console.log(name);
         const currLists = lists.map((obj) => {return obj.name});
 
         if (name !== null && !currLists.includes(name)) {
@@ -82,33 +82,38 @@ const ListSelect = ( props ) => {
                 </div>
             </div>
             <SlideDown clasname="sliedown">
-                {listOpen && <ul>
-                    {lists.map((list) => (
-                        <li key={list.id} style={{display: list.selected ? 'none' : ''}}>
-                            <div onClick={() => setActive(list.id, list.name)}>
-                                <label>{list.name}</label>
-                            </div>
-                            <FontAwesomeIcon className="delete-icon" icon={faTrash} onClick={() => deleteList(list.id, list.name)} />
+                {listOpen &&
+                    <>
+                    <ul>
+                        {lists.map((list) => (
+                            <li key={list.id} style={{display: list.selected ? 'none' : ''}}>
+                                <div onClick={() => setActive(list.id, list.name)}>
+                                    <label>{list.name}</label>
+                                </div>
+                                <FontAwesomeIcon className="delete-icon" icon={faTrash} onClick={() => deleteList(list.id, list.name)} />
+                            </li>
+                        ))}
+                        <li>
+                            <Modal activator={({ setVisible }) => (
+                                <div className="add" onClick={() => setVisible(true)}>
+                                    <FontAwesomeIcon
+                                        className="add-icon"
+                                        icon={faPlus}
+                                    />
+                                </div>
+                            )} onAddNewList={createNewList}>
+                            </Modal>
                         </li>
-                    ))}
-                    <li className="add-list" onClick={() => createNewList()}><FontAwesomeIcon className="add-icon" icon={faPlus} /></li>
-                </ul>}
+                    </ul>
+                    </>
+                }
             </SlideDown>
-            <Modal
-                activator={({ setVisible }) => (
-                    <button
-                        type="button"
-                        onClick={() => setVisible(true)}
-                    >
-                        Show Modal
-                    </button>
-                )}
-            >
-                <AddList />
-            </Modal>
+
         </div>
     );
 
 };
+
+//<li className="add-list" onClick={() => createNewList()}><FontAwesomeIcon className="add-icon" icon={faPlus} /></li>
 
 export default ListSelect;

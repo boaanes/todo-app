@@ -69,7 +69,6 @@ const MainContainer = ( props ) => {
                         return prevTodos;
                     });
                 }}
-                onAddNewList={props.onAddNewList}
             />
             <Summary
                 todoCount={todos[active].length}

@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import './addList.scss';
 
-const AddList = () => {
+const AddList = ({ onAddClick }) => {
 
     const [text, setText] = useState('');
 
@@ -18,7 +18,7 @@ const AddList = () => {
                 placeholder="new list..."
                 onChange={( evt ) => setText(evt.target.value)}
             />
-            <button aria-label="add">
+        <button aria-label="add" onClick={() => onAddClick(text)}>
                 <FontAwesomeIcon icon={faPlus} />
             </button>
         </div>

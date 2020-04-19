@@ -2,9 +2,11 @@ import React, { useState, useRef } from 'react';
 import { createPortal } from 'react-dom'
 import useOnclickOutside from 'react-cool-onclickoutside';
 
+import AddList from '../AddList/AddList';
+
 import './modal.scss';
 
-const Modal = ({ children, activator }) => {
+const Modal = ({ children, activator, onAddNewList }) => {
 
     const [visible, setVisible] = useState(false);
     const ref = useRef();
@@ -16,7 +18,13 @@ const Modal = ({ children, activator }) => {
     const contents = visible && (
         <div className="overlay">
             <div ref={ref}>
-                {children}
+                <AddList onAddClick={( text ) => {
+                        if (text !== '') {
+                            onAddNewList(text);
+                            setVisible(false);
+                        }
+                    }}
+                />
             </div>
         </div>
     );

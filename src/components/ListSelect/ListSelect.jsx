@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
-import { faAngleUp, faPlus, faTrash, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faAngleUp, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SlideDown } from 'react-slidedown';
 import 'react-slidedown/lib/slidedown.css';
@@ -72,7 +72,6 @@ const ListSelect = ( props ) => {
             <div className="header">
                 <div className="header-title">{title}</div>
                 <div>
-                    <FontAwesomeIcon className="edit-icon" icon={faEdit} size="2x" />
                     <FontAwesomeIcon
                         className={(listOpen) ? "dropdown-icon-up" : "dropdown-icon-down"}
                         icon={faAngleUp}

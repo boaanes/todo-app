@@ -15,7 +15,7 @@ const AddTodo = ( props ) => {
     }, [props, text]);
 
     return (
-        <div className="container">
+        <div className="form-container">
             <input
                 type="form"
                 className="input-field"

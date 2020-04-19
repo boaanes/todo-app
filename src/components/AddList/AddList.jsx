@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import './addList.scss';
@@ -9,21 +9,33 @@ const AddList = ({ onAddClick, setVisible }) => {
 
     const [text, setText] = useState('');
 
+    const handleClick = useCallback(() => {
+        if (text !== '') {
+            setVisible(false);
+            onAddClick(text)
+        }
+    }, [onAddClick, setVisible, text]);
+
     return (
         <div className="contents">
-            <input
-                type="form"
-                className="input-field"
-                value={text}
-                placeholder="new list..."
-                onChange={( evt ) => setText(evt.target.value)}
-            />
-        <button aria-label="add" onClick={() => {
-                onAddClick(text);
-                setVisible(false);
-            }}>
-                <FontAwesomeIcon icon={faPlus} />
-            </button>
+            <div className="newlist-header">
+                <p>Add a new list</p>
+                <FontAwesomeIcon className="newlist-close-icon" icon={faTimes} onClick={() => setVisible(false)} />
+            </div>
+            <div className="form-container">
+                <input
+                    type="form"
+                    className="list-input-field"
+                    value={text}
+                    placeholder="new list..."
+                    onChange={( evt ) => setText(evt.target.value)}
+                    onKeyPress={( evt ) => {if (evt.charCode === 13 && text !== '') handleClick()}}
+                    autoFocus={true}
+                />
+                <button aria-label="add" onClick={handleClick}>
+                    <FontAwesomeIcon icon={faPlus} />
+                </button>
+            </div>
         </div>
     );
 };

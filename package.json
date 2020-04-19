@@ -13,6 +13,7 @@
         "node-sass": "^4.13.1",
         "nord": "^0.2.1",
         "react": "^16.13.1",
+        "react-cool-onclickoutside": "^1.4.3",
         "react-dom": "^16.13.1",
         "react-scripts": "3.4.0",
         "react-slidedown": "^2.4.5",

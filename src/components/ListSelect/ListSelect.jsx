@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
-import { faAngleUp, faAngleDown, faPlus, faTrash, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faAngleUp, faPlus, faTrash, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SlideDown } from 'react-slidedown';
 import 'react-slidedown/lib/slidedown.css';
+
+import Modal from '../Modal/Modal';
+import AddList from '../AddList/AddList';
 
 import './listSelect.scss';
 
@@ -64,10 +67,6 @@ const ListSelect = ( props ) => {
         }
     }, [props, listOpen]);
 
-    const handleIcon = () => {
-        return (listOpen) ? faAngleUp : faAngleDown;
-    }
-
     return (
         <div className="wrapper">
             <div className="header">
@@ -95,6 +94,18 @@ const ListSelect = ( props ) => {
                     <li className="add-list" onClick={() => createNewList()}><FontAwesomeIcon className="add-icon" icon={faPlus} /></li>
                 </ul>}
             </SlideDown>
+            <Modal
+                activator={({ setVisible }) => (
+                    <button
+                        type="button"
+                        onClick={() => setVisible(true)}
+                    >
+                        Show Modal
+                    </button>
+                )}
+            >
+                <AddList />
+            </Modal>
         </div>
     );
 

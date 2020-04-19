@@ -102,6 +102,7 @@ const ListSelect = ( props ) => {
                                     />
                                 </div>
                             )} onAddNewList={createNewList}>
+                                <AddList onAddClick={createNewList}/>
                             </Modal>
                         </li>
                     </ul>

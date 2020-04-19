@@ -50,8 +50,8 @@ const MainContainer = ( props ) => {
         setTodos({...todos, [active]: newList});
     }, [todos, active]);
 
-    return(
-        <div className="app">
+    return (
+        <div className="main-container">
             <ListSelect
                 lists={todos}
                 active={active}

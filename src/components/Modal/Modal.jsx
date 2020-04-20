@@ -6,7 +6,7 @@ import useKeyPress from '../../hooks/use-key-press';
 
 import './modal.scss';
 
-const Modal = ({ children, activator, onAddNewList }) => {
+const Modal = ({ children, activator }) => {
 
     const [visible, setVisible] = useState(false);
     const escIsPressed = useKeyPress('Escape');

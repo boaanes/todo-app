@@ -1,0 +1,48 @@
+p {
+    margin: 0;
+}
+
+.contents {
+    background: rgba(236, 239, 244, 1); /*nord6 in rgba*/
+
+    position: absolute;
+
+    top: 4rem;
+    left: 0;
+    right: 0;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    width: 60%;
+    max-width: 300px;
+    height: 100px;
+
+    padding: 2rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+
+    border-radius: 0.3rem;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.29);
+}
+
+.editlist-header {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.editlist-close-icon {
+    transition: 0.1s;
+    margin-right: 4%;
+    margin-top: 2px;
+    transform: scale(1.4);
+
+    &:hover {
+        cursor: pointer;
+        transform: scale(1.8);
+    }
+}

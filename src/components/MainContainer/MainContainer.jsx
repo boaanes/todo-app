@@ -50,6 +50,14 @@ const MainContainer = ( props ) => {
         setTodos({...todos, [active]: newList});
     }, [todos, active]);
 
+    const editListName = useCallback(( name ) => {
+        if (name !== active) {
+            Object.defineProperty(todos, name, Object.getOwnPropertyDescriptor(todos, active));
+            delete todos[active];
+            setActive(name);
+        }
+    }, [active, todos]);
+
     return (
         <div className="main-container">
             <ListSelect
@@ -59,6 +67,7 @@ const MainContainer = ( props ) => {
                 addNewList={( name ) => {
                     setTodos(prevTodos => {
                         prevTodos[name] = [];
+                        setActive(name);
                         return prevTodos;
                     });
                 }}
@@ -69,6 +78,7 @@ const MainContainer = ( props ) => {
                         return prevTodos;
                     });
                 }}
+                editListName={editListName}
             />
             <br/>
             <Summary

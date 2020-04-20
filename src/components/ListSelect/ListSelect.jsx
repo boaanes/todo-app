@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
-import { faAngleUp, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faAngleUp, faPlus, faTrash, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SlideDown } from 'react-slidedown';
 import 'react-slidedown/lib/slidedown.css';
 
 import Modal from '../Modal/Modal';
 import AddList from '../AddList/AddList';
+import EditList from '../EditList/EditList';
 
 import './listSelect.scss';
 
@@ -49,14 +50,22 @@ const ListSelect = ( props ) => {
 
     // TODO: make custom dialog window
     const createNewList = useCallback(( name ) => {
-        console.log(name);
-        const currLists = lists.map((obj) => {return obj.name});
+        const currListNames = lists.map((list) => {return list.name});
 
-        if (name !== null && !currLists.includes(name)) {
+        if (name !== null && !currListNames.includes(name)) {
             props.addNewList(name);
             setLists(mapLists(props.lists, name));
             setListOpen(false);
-            props.setActive(name);
+        }
+    }, [props, lists]);
+
+    const editList = useCallback(( name ) => {
+        const currListNames = lists.map((list) => {return list.name})
+
+        if (name !== null && !currListNames.includes(name)) {
+            props.editListName(name);
+            setLists(mapLists(props.lists, name));
+            setListOpen(false);
         }
     }, [props, lists]);
 
@@ -72,6 +81,18 @@ const ListSelect = ( props ) => {
             <div className="header">
                 <div className="header-title">{title}</div>
                 <div>
+                    <Modal activator={({ setVisible }) => (
+                        <FontAwesomeIcon
+                            className="edit-icon"
+                            icon={faEdit}
+                            size="2x"
+                            onClick={() => setVisible(true)}
+                        />
+                    )}>
+                        <EditList onEditClick={editList} />
+                    </Modal>
+
+
                     <FontAwesomeIcon
                         className={(listOpen) ? "dropdown-icon-up" : "dropdown-icon-down"}
                         icon={faAngleUp}
@@ -97,7 +118,7 @@ const ListSelect = ( props ) => {
                                 <div className="add" onClick={() => setVisible(true)}>
                                     <FontAwesomeIcon className="add-icon" icon={faPlus} />
                                 </div>
-                            )} onAddNewList={createNewList}>
+                            )}>
                                 <AddList onAddClick={createNewList}/>
                             </Modal>
                         </li>

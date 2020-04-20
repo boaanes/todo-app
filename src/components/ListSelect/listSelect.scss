@@ -6,7 +6,6 @@ $anim-underline: all 0.1s ease-in-out;
     padding: 5px;
     padding-left: 10px;
     padding-right: 10px;
-    margin-bottom: 1rem;
 }
 
 .header {
@@ -53,7 +52,7 @@ $anim-underline: all 0.1s ease-in-out;
 }
 
 /* NOTE: not in use atm, may be tweaked for different dropdown animation */
-.react-slidedown.slidedown {
+.react-slidedown {
 
 }
 
@@ -62,6 +61,8 @@ ul {
     border-radius: 3px;
     list-style-type: none;
     padding-left: 0;
+    margin-bottom: 0px;
+    margin-top: 0px;
 }
 
 li {

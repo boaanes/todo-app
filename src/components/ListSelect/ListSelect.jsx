@@ -80,7 +80,7 @@ const ListSelect = ( props ) => {
                     />
                 </div>
             </div>
-            <SlideDown clasname="sliedown">
+            <SlideDown>
                 {listOpen &&
                     <>
                     <ul>
@@ -105,7 +105,6 @@ const ListSelect = ( props ) => {
                     </>
                 }
             </SlideDown>
-
         </div>
     );
 

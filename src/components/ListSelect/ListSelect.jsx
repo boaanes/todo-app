@@ -95,10 +95,7 @@ const ListSelect = ( props ) => {
                         <li>
                             <Modal activator={({ setVisible }) => (
                                 <div className="add" onClick={() => setVisible(true)}>
-                                    <FontAwesomeIcon
-                                        className="add-icon"
-                                        icon={faPlus}
-                                    />
+                                    <FontAwesomeIcon className="add-icon" icon={faPlus} />
                                 </div>
                             )} onAddNewList={createNewList}>
                                 <AddList onAddClick={createNewList}/>

@@ -2,17 +2,19 @@ import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import useOnclickOutside from 'react-cool-onclickoutside';
 import { CSSTransition } from 'react-transition-group';
+import useKeyPress from '../../hooks/use-key-press';
 
 import './modal.scss';
 
 const Modal = ({ children, activator, onAddNewList }) => {
 
     const [visible, setVisible] = useState(false);
+    const escIsPressed = useKeyPress('Escape');
     const ref = useRef();
 
     useEffect(() => {
-        console.log("halla");
-    });
+        if (escIsPressed) setVisible(false);
+    }, [escIsPressed, setVisible]);
 
     useOnclickOutside(ref, () => {
         setVisible(false);

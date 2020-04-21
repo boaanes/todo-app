@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
-import { faAngleUp, faPlus, faTrash, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faAngleUp, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SlideDown } from 'react-slidedown';
 import 'react-slidedown/lib/slidedown.css';
 
+import ListView from '../ListView/ListView';
 import Modal from '../Modal/Modal';
-import AddList from '../AddList/AddList';
 import EditList from '../EditList/EditList';
 
 import './listSelect.scss';
@@ -90,8 +90,6 @@ const ListSelect = ( props ) => {
                     )}>
                         <EditList onEditClick={editListName} />
                     </Modal>
-
-
                     <FontAwesomeIcon
                         className={(listOpen) ? "dropdown-icon-up" : "dropdown-icon-down"}
                         icon={faAngleUp}
@@ -102,27 +100,13 @@ const ListSelect = ( props ) => {
             </div>
             <SlideDown>
                 {listOpen &&
-                    <>
-                    <ul>
-                        {lists.map((list) => (
-                            <li key={list.id} style={{display: list.selected ? 'none' : ''}}>
-                                <div onClick={() => setActive(list.id, list.name)}>
-                                    <label>{list.name}</label>
-                                </div>
-                                <FontAwesomeIcon className="delete-icon" icon={faTrash} onClick={() => deleteList(list.id, list.name)} />
-                            </li>
-                        ))}
-                        <li>
-                            <Modal activator={({ setVisible }) => (
-                                <div className="add" onClick={() => setVisible(true)}>
-                                    <FontAwesomeIcon className="add-icon" icon={faPlus} />
-                                </div>
-                            )}>
-                                <AddList onAddClick={addNewList}/>
-                            </Modal>
-                        </li>
-                    </ul>
-                    </>
+                <ListView
+                    lists={lists}
+                    listOpen={listOpen}
+                    setActive={setActive}
+                    addNewList={addNewList}
+                    deleteList={deleteList}
+                />
                 }
             </SlideDown>
         </div>

@@ -5,14 +5,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import './addTodo.scss';
 
-const AddTodo = ( props ) => {
+const AddTodo = ({ onAddClick }) => {
 
     const [text, setText] = useState('');
 
     const handleClick = useCallback(() => {
-        props.onAddClick(text);
+        onAddClick(text);
         setText('');
-    }, [props, text]);
+    }, [onAddClick, text]);
 
     return (
         <div className="form-container">

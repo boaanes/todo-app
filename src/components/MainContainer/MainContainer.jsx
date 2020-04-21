@@ -14,7 +14,7 @@ const getInitialState = () => {
     return (data !== null && data.length !== 0) ? [data, Object.keys(data)[0]] : [{"Todo-list" : []}, "Todo-list"];
 }
 
-const MainContainer = ( props ) => {
+const MainContainer = () => {
 
     const [todos, setTodos] = useState(() => getInitialState()[0]);
     const [active, setActive] = useState(() => getInitialState()[1]);
@@ -64,7 +64,7 @@ const MainContainer = ( props ) => {
     return (
         <div className="main-container">
             <ListSelect
-                lists={todos}
+                todos={todos}
                 active={active}
                 setActive={setActive}
                 addNewList={( name ) => {

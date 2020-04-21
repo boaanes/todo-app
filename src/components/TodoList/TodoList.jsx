@@ -2,16 +2,16 @@ import React from 'react';
 
 import TodoItem from '../TodoItem/TodoItem';
 
-const TodoList = ( props ) => (
+const TodoList = ({ todoItems, onDeleteClick, onCheckClick }) => (
     <div className="todo-list">
-        {props.todoItems.map(todoItem => (
+        {todoItems.map(todoItem => (
             <TodoItem
                 key={todoItem.id}
                 id={todoItem.id}
                 desc={todoItem.desc}
                 completed={todoItem.completed}
-                onDeleteClick={props.onDeleteClick}
-                onCheckClick={props.onCheckClick}
+                onDeleteClick={onDeleteClick}
+                onCheckClick={onCheckClick}
             />
         ))}
     </div>

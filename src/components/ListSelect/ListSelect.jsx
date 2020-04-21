@@ -27,7 +27,7 @@ const mapLists = ( data, active ) => {
 
 const ListSelect = ( props ) => {
 
-    const [lists, setLists] = useState(() => mapLists(props.lists, props.active));
+    const [lists, setLists] = useState(() => mapLists(props.todos, props.active));
     const [title, setTitle] = useState(props.active);
     const [listOpen, setListOpen] = useState(false);
 
@@ -48,23 +48,22 @@ const ListSelect = ( props ) => {
         props.setActive(name);
     }, [props, lists]);
 
-    // TODO: make custom dialog window
-    const createNewList = useCallback(( name ) => {
+    const addNewList = useCallback(( name ) => {
         const currListNames = lists.map((list) => {return list.name});
 
         if (name !== null && !currListNames.includes(name)) {
             props.addNewList(name);
-            setLists(mapLists(props.lists, name));
+            setLists(mapLists(props.todos, name));
             setListOpen(false);
         }
     }, [props, lists]);
 
-    const editList = useCallback(( name ) => {
+    const editListName = useCallback(( name ) => {
         const currListNames = lists.map((list) => {return list.name})
 
         if (name !== null && !currListNames.includes(name)) {
             props.editListName(name);
-            setLists(mapLists(props.lists, name));
+            setLists(mapLists(props.todos, name));
             setListOpen(false);
         }
     }, [props, lists]);
@@ -89,7 +88,7 @@ const ListSelect = ( props ) => {
                             onClick={() => setVisible(true)}
                         />
                     )}>
-                        <EditList onEditClick={editList} />
+                        <EditList onEditClick={editListName} />
                     </Modal>
 
 
@@ -119,7 +118,7 @@ const ListSelect = ( props ) => {
                                     <FontAwesomeIcon className="add-icon" icon={faPlus} />
                                 </div>
                             )}>
-                                <AddList onAddClick={createNewList}/>
+                                <AddList onAddClick={addNewList}/>
                             </Modal>
                         </li>
                     </ul>
@@ -130,7 +129,5 @@ const ListSelect = ( props ) => {
     );
 
 };
-
-//<li className="add-list" onClick={() => createNewList()}><FontAwesomeIcon className="add-icon" icon={faPlus} /></li>
 
 export default ListSelect;

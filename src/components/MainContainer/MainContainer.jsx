@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import './mainContainer.scss';
 
@@ -23,40 +23,43 @@ const MainContainer = ( props ) => {
         saveData();
     });
 
-    const saveData = useCallback(() => {
+    const saveData = () => {
         localStorage.setItem('store', JSON.stringify(todos));
-    }, [todos]);
+    };
 
-    const newTodo = useCallback(( text ) => {
+    const updateList = ( list, newList ) => {
+        setTodos({...todos, [list]: newList});
+    };
+
+    const newTodo = ( text ) => {
         if (text !== '') {
             const id = (todos[active].length === 0) ? 0 : todos[active][todos[active].length - 1].id + 1;
             const newList = todos[active].concat(new Todo(id, text, false));
-
-            setTodos({...todos, [active]: newList});
+            updateList(active, newList);
         }
-    }, [todos, active]);
+    };
 
-    const checkTodo = useCallback(( id ) => {
+    const checkTodo = ( id ) => {
         const newList = todos[active];
         newList.forEach(( todo ) => {
             if (todo.id === id) todo.completed = !todo.completed;
         });
 
-        setTodos({...todos, [active]: newList})
-    }, [todos, active]);
+        updateList(active, newList);
+    };
 
-    const deleteTodo = useCallback(( id ) => {
+    const deleteTodo = ( id ) => {
         const newList = todos[active].filter(todo => todo.id !== id);
-        setTodos({...todos, [active]: newList});
-    }, [todos, active]);
+        updateList(active, newList);
+    };
 
-    const editListName = useCallback(( name ) => {
+    const editListName = ( name ) => {
         if (name !== active) {
             Object.defineProperty(todos, name, Object.getOwnPropertyDescriptor(todos, active));
             delete todos[active];
             setActive(name);
         }
-    }, [active, todos]);
+    };
 
     return (
         <div className="main-container">

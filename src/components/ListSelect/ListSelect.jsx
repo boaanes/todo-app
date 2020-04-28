@@ -1,13 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
-import { faAngleUp, faEdit } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SlideDown } from 'react-slidedown';
 import 'react-slidedown/lib/slidedown.css';
 
 import ListView from '../ListView/ListView';
-import Modal from '../Modal/Modal';
-import EditList from '../EditList/EditList';
+import Header from '../Header/Header';
 
 import './listSelect.scss';
 
@@ -76,28 +73,13 @@ const ListSelect = ( props ) => {
     }, [props, listOpen]);
 
     return (
-        <div className="wrapper">
-            <div className="header">
-                <div className="header-title">{title}</div>
-                <div>
-                    <Modal activator={({ setVisible }) => (
-                        <FontAwesomeIcon
-                            className="edit-icon"
-                            icon={faEdit}
-                            size="2x"
-                            onClick={() => setVisible(true)}
-                        />
-                    )}>
-                        <EditList onEditClick={editListName} />
-                    </Modal>
-                    <FontAwesomeIcon
-                        className={(listOpen) ? "dropdown-icon-up" : "dropdown-icon-down"}
-                        icon={faAngleUp}
-                        size="2x"
-                        onClick={() => setListOpen(prevListOpen => !prevListOpen)}
-                    />
-                </div>
-            </div>
+        <div className="ls-wrapper">
+            <Header
+                title={title}
+                editListName={editListName}
+                listOpen={listOpen}
+                setListOpen={setListOpen}
+            />
             <SlideDown>
                 {listOpen &&
                 <ListView

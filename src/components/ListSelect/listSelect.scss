@@ -1,53 +1,9 @@
 @import 'node_modules/nord/src/sass/nord.scss';
 
-.wrapper {
+.ls-wrapper {
     padding: 5px;
     padding-left: 10px;
     padding-right: 10px;
-}
-
-.header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin-bottom: 0.5rem;
-}
-
-.header-title {
-    font-size: 2rem;
-    margin-top: 5px;
-}
-
-.edit-icon {
-    margin-right: 10px;
-    transition: 0.1s;
-    transform: scale(0.8);
-
-    &:hover {
-        transform: scale(0.95);
-        cursor: pointer;
-    }
-}
-
-.dropdown-icon-up {
-    margin-top: 10px;
-    margin-right: 10px;
-    transition: 0.3s;
-
-    &:hover {
-        cursor: pointer;
-    }
-}
-
-.dropdown-icon-down {
-    margin-top: 10px;
-    margin-right: 10px;
-    transition: 0.3s;
-    transform: rotate(-180deg);
-
-    &:hover {
-        cursor: pointer;
-    }
 }
 
 /* NOTE: not in use atm, may be tweaked for different dropdown animation */

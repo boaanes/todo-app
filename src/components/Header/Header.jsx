@@ -1,9 +1,6 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 
-import { faListUl, faSignInAlt } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 import './header.scss';
 
 const Header = () => {

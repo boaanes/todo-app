@@ -4,7 +4,7 @@ import { SlideDown } from 'react-slidedown';
 import 'react-slidedown/lib/slidedown.css';
 
 import ListView from '../ListView/ListView';
-import Header from '../Header/Header';
+import Title from '../Title/Title';
 
 import './listSelect.scss';
 
@@ -74,7 +74,7 @@ const ListSelect = ( props ) => {
 
     return (
         <div className="ls-wrapper">
-            <Header
+            <Title
                 title={title}
                 editListName={editListName}
                 listOpen={listOpen}

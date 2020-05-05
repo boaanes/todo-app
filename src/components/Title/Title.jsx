@@ -6,9 +6,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Modal from '../Modal/Modal';
 import EditList from '../EditList/EditList';
 
-import './header.scss';
+import './title.scss';
 
-const Header = ( props ) => {
+const Title = ( props ) => {
 
     return (
         <div className="header">
@@ -35,4 +35,4 @@ const Header = ( props ) => {
     );
 };
 
-export default Header;
+export default Title;

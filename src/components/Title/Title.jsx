@@ -11,8 +11,8 @@ import './title.scss';
 const Title = ( props ) => {
 
     return (
-        <div className="header">
-            <div className="header-title">{props.title}</div>
+        <div className="title">
+            <div className="title-text">{props.title}</div>
             <div>
                 <Modal activator={({ setVisible }) => (
                     <FontAwesomeIcon

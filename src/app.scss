@@ -9,22 +9,37 @@ body {
 
     background-color: $nord0;
     color: $nord11;
+
+    margin: 0;
 }
 
 h1 {
     font-size: 2.3rem;
 }
 
+input[type='form'], input[type='email'], input[type='password'] {
+    border: 1px solid $nord11;
+    width: 80%;
+    color: #af9072;
+    font-weight: bold;
+    border-radius: 0.3rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+input[type='email'], input[type='password'] {
+    width: 100%;
+}
+
 button {
     transition: 0.1s;
 
     background-color: #d77a61;
-    color: #844b3b;
+    color: #7e2626;
 
     font-weight: bold;
 
     height: 1.8rem;
-    width: 35px;
 
     border: none;
     border-radius: 0.3rem;
@@ -45,4 +60,8 @@ button {
         transition: 0.05s;
         transform: scale(1.1);
     }
+}
+
+.icon-btn {
+    width: 35px;
 }

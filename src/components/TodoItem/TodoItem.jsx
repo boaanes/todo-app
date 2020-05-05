@@ -9,7 +9,7 @@ const TodoItem = ({ id, desc, completed, onDeleteClick, onCheckClick }) => (
     <div className="item">
         <input type="checkbox" className="check" checked={assertChecked(completed)} id={`todoItemCheckbox-${id}`} onChange={() => onCheckClick(id)} />
         <div className="desc"><label style={{textDecoration: completed ? 'line-through': 'none', color: completed ? 'grey': ''}}  htmlFor={`todoItemCheckbox-${id}`}>{desc}</label></div>
-        <button className="button" onClick={() => onDeleteClick(id)}>
+        <button className="icon-btn" onClick={() => onDeleteClick(id)}>
             <FontAwesomeIcon icon={faTimes} />
         </button>
     </div>

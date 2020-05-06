@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
+import firebase from './firebase.config';
+
 import './app.scss';
 
 import MainContainer from './components/MainContainer/MainContainer';
@@ -13,6 +15,11 @@ export const AuthContext = React.createContext(null);
 const App = () => {
 
     const [loggedIn, setLoggedIn] = useState(false);
+
+    firebase.auth().onAuthStateChanged((user) => {
+        if (user) setLoggedIn(true);
+        else setLoggedIn(false);
+    });
 
     return (
         <AuthContext.Provider value={{ loggedIn, setLoggedIn }}>

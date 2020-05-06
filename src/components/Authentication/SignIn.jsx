@@ -13,7 +13,7 @@ const SignIn = () => {
     const logIn = () => {
         firebase.auth().signInWithEmailAndPassword(email, pwd).then(res => {
             if (res.user) Auth.setLoggedIn(true);
-        }).catch(function(error) {
+        }).catch((error) => {
             var errorCode = error.code;
             var errorMessage = error.message;
         });

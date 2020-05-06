@@ -1,5 +1,4 @@
-import React from 'react';
-
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import './app.scss';
@@ -9,22 +8,30 @@ import Authentication from './components/Authentication/Authentication';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 
+export const AuthContext = React.createContext(null);
+
 const App = () => {
+
+    const [loggedIn, setLoggedIn] = useState(false);
+
     return (
-        <div className="container">
-            <Router>
-                <Header />
-                <Switch>
-                    <Route exact path="/">
-                        <MainContainer />
-                    </Route>
-                    <Route path="/signin">
-                        <Authentication />
-                    </Route>
-                </Switch>
-            </Router>
-            <Footer />
-        </div>
+        <AuthContext.Provider value={{ loggedIn, setLoggedIn }}>
+            <div className="container">
+                <p>Is logged in? {JSON.stringify(loggedIn)}</p>
+                <Router>
+                    <Header />
+                    <Switch>
+                        <Route exact path="/">
+                            <MainContainer />
+                        </Route>
+                        <Route path="/signin">
+                            <Authentication />
+                        </Route>
+                    </Switch>
+                </Router>
+                <Footer />
+            </div>
+        </AuthContext.Provider>
     );
 };
 

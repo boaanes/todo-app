@@ -1,10 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import firebase from '../../firebase.config';
+
+import { AuthContext } from '../../App';
 
 const SignUp = () => {
 
     const [email, setEmail] = useState('');
     const [pwd, setPwd] = useState('');
     const [confirmPwd, setConfirmPwd] = useState('');
+
+    const Auth = useContext(AuthContext);
+
+    const createUser = () => {
+        firebase.auth().createUserWithEmailAndPassword(email, pwd).then(res => {
+            if (res.user) Auth.setLoggedIn(true);
+        }).catch(function(error) {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+        });
+
+        setEmail('');
+        setPwd('');
+        setConfirmPwd('');
+    };
 
     return (
         <>
@@ -36,7 +54,7 @@ const SignUp = () => {
             />
         </div>
         <div className="center-btn-div">
-            <button className="signin-btn" onClick={() => console.log(pwd)}>Sign up</button>
+            <button className="signin-btn" onClick={() => createUser()}>Sign up</button>
         </div>
         </>
     );

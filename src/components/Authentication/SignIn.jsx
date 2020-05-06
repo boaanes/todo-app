@@ -1,9 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import firebase from '../../firebase.config';
+
+import { AuthContext } from '../../App';
 
 const SignIn = () => {
 
     const [email, setEmail] = useState('');
     const [pwd, setPwd] = useState('');
+
+    const Auth = useContext(AuthContext);
+
+    const logIn = () => {
+        firebase.auth().signInWithEmailAndPassword(email, pwd).then(res => {
+            if (res.user) Auth.setLoggedIn(true);
+        }).catch(function(error) {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+        });
+
+        setEmail('');
+        setPwd('');
+    }
 
     return (
         <>
@@ -26,7 +43,7 @@ const SignIn = () => {
             />
         </div>
         <div className="center-btn-div">
-            <button className="signin-btn" onClick={() => console.log(pwd)}>Sign in</button>
+            <button className="signin-btn" onClick={() => logIn()}>Sign in</button>
         </div>
         </>
     );

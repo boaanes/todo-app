@@ -1,18 +1,18 @@
 import React, { useState, useContext } from 'react';
 import firebase from '../../firebase.config';
+import { Link } from 'react-router-dom';
 
 import { AuthContext } from '../../App';
 
-const SignUp = () => {
+const NewSignIn = () => {
 
     const [email, setEmail] = useState('');
     const [pwd, setPwd] = useState('');
-    const [confirmPwd, setConfirmPwd] = useState('');
 
     const Auth = useContext(AuthContext);
 
-    const createUser = () => {
-        firebase.auth().createUserWithEmailAndPassword(email, pwd).then(res => {
+    const logIn = () => {
+        firebase.auth().signInWithEmailAndPassword(email, pwd).then(res => {
             if (res.user) Auth.setLoggedIn(true);
         }).catch((error) => {
             var errorCode = error.code;
@@ -21,12 +21,10 @@ const SignUp = () => {
 
         setEmail('');
         setPwd('');
-        setConfirmPwd('');
-    };
+    }
 
     return (
-        <>
-        <div className="form-container">
+        <div className="login-container">
             <input
                 type="email"
                 className="input-field"
@@ -34,8 +32,6 @@ const SignUp = () => {
                 placeholder="email"
                 onChange={( evt ) => setEmail(evt.target.value)}
             />
-        </div>
-        <div className="form-container">
             <input
                 type="password"
                 className="input-field"
@@ -43,22 +39,13 @@ const SignUp = () => {
                 placeholder="password"
                 onChange={( evt ) => setPwd(evt.target.value)}
             />
+            <button className="header-btn" onClick={() => logIn()}>Sign in</button>
+            <p>or</p>
+            <Link to="/signup">
+                <button className="header-btn">Sign up</button>
+            </Link>
         </div>
-        <div className="form-container">
-            <input
-                type="password"
-                className="input-field"
-                value={confirmPwd}
-                placeholder="confirm password"
-                onChange={( evt ) => setConfirmPwd(evt.target.value)}
-            />
-        </div>
-        <div className="center-btn-div">
-            <button className="signin-btn" onClick={() => createUser()}>Sign up</button>
-        </div>
-        </>
     );
-
 };
 
-export default SignUp;
+export default NewSignIn;

@@ -27,10 +27,6 @@ input[type='form'], input[type='email'], input[type='password'] {
     padding-right: 0.5rem;
 }
 
-input[type='email'], input[type='password'] {
-    width: 100%;
-}
-
 button {
     transition: 0.1s;
 
@@ -38,6 +34,7 @@ button {
     color: #7e2626;
 
     font-weight: bold;
+    white-space: nowrap;
 
     height: 1.8rem;
 
@@ -48,7 +45,6 @@ button {
 
     &:hover {
         transform: scale(1.1);
-        transform: matrix3d(10);
     }
 
     &:focus::-moz-focus-inner {
@@ -56,7 +52,6 @@ button {
     }
 
     &:active {
-        padding: 0px;
         transition: 0.05s;
         transform: scale(1.05);
     }

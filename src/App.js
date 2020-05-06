@@ -6,7 +6,7 @@ import firebase from './firebase.config';
 import './app.scss';
 
 import MainContainer from './components/MainContainer/MainContainer';
-import Authentication from './components/Authentication/Authentication';
+import SignUp from './components/SignUp/SignUp';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 
@@ -24,15 +24,14 @@ const App = () => {
     return (
         <AuthContext.Provider value={{ loggedIn, setLoggedIn }}>
             <div className="container">
-                <p>Is logged in? {JSON.stringify(loggedIn)}</p>
                 <Router>
                     <Header />
                     <Switch>
                         <Route exact path="/">
                             <MainContainer />
                         </Route>
-                        <Route path="/signin">
-                            <Authentication />
+                        <Route path="/signup">
+                            <SignUp />
                         </Route>
                     </Switch>
                 </Router>

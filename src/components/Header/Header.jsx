@@ -1,8 +1,13 @@
 import React, { useContext } from 'react';
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import firebase from '../../firebase.config';
 
+import { faHome } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import { AuthContext } from '../../App';
+
+import SignIn from '../SignIn/SignIn';
 
 import './header.scss';
 
@@ -23,16 +28,21 @@ const Header = () => {
         <div className="header">
             <div className="header-container">
                 <Link to="/">
-                    <button className="header-btn">Home</button>
+                    <button><FontAwesomeIcon icon={faHome} size="2x" /></button>
                 </Link>
                 {!Auth.loggedIn &&
-                <Link to="/signin">
-                    <button className="header-btn">Sign In</button>
-                </Link>}
+                    <div className="right">
+                        <SignIn />
+                    </div>
+                }
                 {Auth.loggedIn &&
-                <Link to="/">
-                    <button className="header-btn" onClick={signOut}>Sign Out</button>
-                </Link>}
+                    <div className="login-container right">
+                        <p>logged in as: {firebase.auth().currentUser.email}</p>
+                        <Link to="/">
+                            <button className="header-btn" onClick={signOut}>Sign Out</button>
+                        </Link>
+                    </div>
+                }
             </div>
         </div>
     );

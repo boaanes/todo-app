@@ -16,17 +16,24 @@ const SignUp = () => {
         confirmPwdError: ''
     });
     const [valid, setValid] = useState(false);
+    const [firebaseError, setFirebaseError] = useState('');
 
     const Auth = useContext(AuthContext);
 
     useEffect(() => {
-        if (email !== '' && pwd !== '' && confirmPwd !== '')
+        if (email !== '' && pwd !== '' && confirmPwd !== '') {
             if (errors.emailError === '' && errors.pwdError === '' && errors.confirmPwdError === '') {
-                setValid(true);
-            } else {
-                setValid(false);
+                if (pwd === confirmPwd) {
+                    setValid(true);
+                    return;
+                } else {
+                    setErrors({...errors, confirmPwdError: 'Passwords doesn\'t match'});
+                }
             }
-    }, [errors, setValid, email, pwd, confirmPwd]);
+        }
+
+        setValid(false);
+    }, [errors, setErrors, setValid, email, pwd, confirmPwd]);
 
     const handleChange = ( evt, type ) => {
 
@@ -68,18 +75,21 @@ const SignUp = () => {
     };
 
     const createUser = () => {
-        firebase.auth().createUserWithEmailAndPassword(email, pwd).then(res => {
-            if (res.user) Auth.setLoggedIn(true);
+        if (valid) {
+            firebase.auth().createUserWithEmailAndPassword(email, pwd).then(res => {
+                if (res.user) Auth.setLoggedIn(true);
 
-            setEmail('');
-            setPwd('');
-            setConfirmPwd('');
-        }).catch((error) => {
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            console.log(errorCode);
-            console.log(errorMessage);
-        });
+                setEmail('');
+                setPwd('');
+                setConfirmPwd('');
+            }).catch((error) => {
+                var errorCode = error.code;
+                var errorMessage = error.message;
+
+                console.log(errorCode);
+                setFirebaseError(errorMessage);
+            });
+        }
     };
 
     return (
@@ -118,6 +128,7 @@ const SignUp = () => {
             <div className="center-btn-div">
                 <button style={{backgroundColor: valid ? '#d77a61' : '#6f6f6f', color: valid ? '#7e2626' : '#292929'}} onClick={() => createUser()}>Sign up</button>
             </div>
+            <p>{firebaseError}</p>
         </div>
     );
 

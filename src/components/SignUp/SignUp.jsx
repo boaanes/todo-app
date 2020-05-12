@@ -125,8 +125,8 @@ const SignUp = () => {
                 />
             </div>
             <p>{errors.confirmPwdError}</p>
-            <div className="center-btn-div">
-                <button style={{backgroundColor: valid ? '#d77a61' : '#6f6f6f', color: valid ? '#7e2626' : '#292929'}} onClick={() => createUser()}>Sign up</button>
+            <div>
+                <button className="center-btn" style={{backgroundColor: valid ? '#d77a61' : '#6f6f6f', color: valid ? '#7e2626' : '#292929'}} onClick={() => createUser()}>Sign up</button>
             </div>
             <p>{firebaseError}</p>
         </div>

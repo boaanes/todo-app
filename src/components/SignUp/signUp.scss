@@ -2,12 +2,18 @@
     height: 1.8rem;
 }
 
-.center-btn-div {
-    display: flex;
+.center-btn {
+    width: 25%;
+    margin: 0 auto;
+    display: block;
 }
 
 .info-text {
     color: rgba(0, 0, 0, 0.35);
     margin: 10px;
     text-align: center;
+}
+
+input[type='email'], input[type='password'] {
+    width: 100%;
 }

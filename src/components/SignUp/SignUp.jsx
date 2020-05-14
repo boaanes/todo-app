@@ -44,7 +44,7 @@ const SignUp = () => {
                 if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(evt.target.value)) {
                     setErrors({...errors, emailError: ''});
                 } else {
-                    setErrors({...errors, emailError: 'Please enter a correct email address'});
+                    setErrors({...errors, emailError: 'please enter a correct email address'});
                 }
 
                 break;
@@ -54,7 +54,7 @@ const SignUp = () => {
                 if (evt.target.value.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,200}$/)) {
                     setErrors({...errors, pwdError: ''});
                 } else {
-                    setErrors({...errors, pwdError: 'Passwords should be at least 8 characters, one digit, one uppercase letter, and one lowercase letter.'});
+                    setErrors({...errors, pwdError: 'passwords should be at least 8 characters, one digit, one uppercase letter, and one lowercase letter.'});
                 }
 
                 break;
@@ -62,7 +62,7 @@ const SignUp = () => {
                 setConfirmPwd(evt.target.value);
 
                 if (evt.target.value !== pwd) {
-                    setErrors({...errors, confirmPwdError: 'Passwords doesn\'t match'});
+                    setErrors({...errors, confirmPwdError: 'passwords doesn\'t match'});
                 } else {
                     setErrors({...errors, confirmPwdError: ''});
                 }
@@ -74,7 +74,7 @@ const SignUp = () => {
         }
     };
 
-    const createUser = () => {
+    const createUser = ( evt ) => {
         if (valid) {
             firebase.auth().createUserWithEmailAndPassword(email, pwd).then(res => {
                 if (res.user) Auth.setLoggedIn(true);
@@ -90,45 +90,58 @@ const SignUp = () => {
                 setFirebaseError(errorMessage);
             });
         }
+
+        evt.preventDefault();
     };
 
     return (
         <div className="main-container">
             <h1>Sign up:</h1>
-            <div className="form-container">
-                <input
-                    type="email"
-                    className="input-field"
-                    value={email}
-                    placeholder="email"
-                    onChange={( evt ) => handleChange(evt, 'email')}
-                />
-            </div>
-            <p>{errors.emailError}</p>
-            <div className="form-container">
-                <input
-                    type="password"
-                    className="input-field"
-                    value={pwd}
-                    placeholder="password"
-                    onChange={( evt ) => handleChange(evt, 'pwd')}
-                />
-            </div>
-            <p>{errors.pwdError}</p>
-            <div className="form-container">
-                <input
-                    type="password"
-                    className="input-field"
-                    value={confirmPwd}
-                    placeholder="confirm password"
-                    onChange={( evt ) => handleChange(evt, 'confirmPwd')}
-                />
-            </div>
-            <p>{errors.confirmPwdError}</p>
-            <div>
-                <button className="center-btn" style={{backgroundColor: valid ? '#d77a61' : '#6f6f6f', color: valid ? '#7e2626' : '#292929'}} onClick={() => createUser()}>Sign up</button>
-            </div>
-            <p>{firebaseError}</p>
+            {Auth.loggedIn &&
+            <p>You are already signed in</p>}
+            {!Auth.loggedIn && <div>
+                <form onSubmit={createUser} id="form-signup">
+                    <input
+                        type="email"
+                        className="signup-field"
+                        autoComplete="email"
+                        value={email}
+                        placeholder="email"
+                        onChange={( evt ) => handleChange(evt, 'email')}
+                    />
+                    <p className="error-msg">{errors.emailError}</p>
+                    <input
+                        type="password"
+                        className="signup-field"
+                        autoComplete="new-password"
+                        value={pwd}
+                        placeholder="password"
+                        onChange={( evt ) => handleChange(evt, 'pwd')}
+                    />
+                    <p className="error-msg">{errors.pwdError}</p>
+                    <input
+                        type="password"
+                        className="signup-field"
+                        autoComplete="new-password"
+                        value={confirmPwd}
+                        placeholder="confirm password"
+                        onChange={( evt ) => handleChange(evt, 'confirmPwd')}
+                    />
+                    <p className="error-msg">{errors.confirmPwdError}</p>
+                </form>
+            </div>}
+            {!Auth.loggedIn && <div>
+                <button
+                    type="submit"
+                    form="form-signup"
+                    className="center-btn"
+                    style={{
+                        backgroundColor: valid ? '#d77a61' : '#6f6f6f',
+                        color: valid ? '#7e2626' : '#292929'
+                    }}
+                >Sign up</button>
+            </div>}
+            <p className="error-msg">{firebaseError}</p>
         </div>
     );
 

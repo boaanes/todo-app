@@ -24,7 +24,7 @@ const AddTodo = ({ onAddClick }) => {
                 onChange={( evt ) => setText(evt.target.value)}
                 onKeyPress={( evt ) => {if (evt.charCode === 13 && text !== '') handleClick()}}
             />
-        <button aria-label="add" className="icon-btn" onClick={handleClick}>
+            <button aria-label="add" className="icon-btn" onClick={handleClick}>
                 <FontAwesomeIcon icon={faPlus} />
             </button>
         </div>

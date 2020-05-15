@@ -1,10 +1,10 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useCallback } from 'react';
 import firebase from '../../firebase.config';
 import { Link } from 'react-router-dom';
 
 import { AuthContext } from '../../App';
 
-const NewSignIn = () => {
+const SignIn = ({ setError }) => {
 
     const [email, setEmail] = useState('');
     const [pwd, setPwd] = useState('');
@@ -12,12 +12,12 @@ const NewSignIn = () => {
     const Auth = useContext(AuthContext);
 
     const logIn = ( evt ) => {
-        console.log("logging in");
         firebase.auth().signInWithEmailAndPassword(email, pwd).then(res => {
             if (res.user) Auth.setLoggedIn(true);
         }).catch((error) => {
             var errorCode = error.code;
             var errorMessage = error.message;
+            updateError(errorMessage);
         });
 
         setEmail('');
@@ -26,12 +26,17 @@ const NewSignIn = () => {
         evt.preventDefault();
     }
 
+    const updateError = useCallback(( errorCode ) => {
+        setError(errorCode);
+    });
+
     return (
         <div className="login-container">
             <form onSubmit={logIn} id="form-signin" style={{display: 'flex'}}>
                 <input
                     type="email"
                     className="input-field"
+                    autoComplete="email"
                     value={email}
                     placeholder="email"
                     onChange={( evt ) => setEmail(evt.target.value)}
@@ -39,6 +44,7 @@ const NewSignIn = () => {
                 <input
                     type="password"
                     className="input-field"
+                    autoComplete="current-password"
                     value={pwd}
                     placeholder="password"
                     onChange={( evt ) => setPwd(evt.target.value)}
@@ -57,4 +63,4 @@ const NewSignIn = () => {
     );
 };
 
-export default NewSignIn;
+export default SignIn;

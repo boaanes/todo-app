@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import firebase from '../../firebase.config';
 
@@ -8,10 +8,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AuthContext } from '../../App';
 
 import SignIn from '../SignIn/SignIn';
+import HeaderError from './HeaderError';
 
 import './header.scss';
 
 const Header = () => {
+
+    const [error, setError] = useState('');
 
     const Auth = useContext(AuthContext);
 
@@ -31,9 +34,18 @@ const Header = () => {
                     <button><FontAwesomeIcon icon={faHome} size="2x" /></button>
                 </Link>
                 {!Auth.loggedIn &&
-                    <div className="right">
-                        <SignIn />
-                    </div>
+                    <>
+                    {error === '' &&
+                        <div className="right">
+                            <SignIn setError={setError} />
+                        </div>
+                    }
+                    {error !== '' &&
+                        <div className="right">
+                            <HeaderError errorMsg={error} setError={setError} />
+                        </div>
+                    }
+                    </>
                 }
                 {Auth.loggedIn &&
                     <div className="login-container right">

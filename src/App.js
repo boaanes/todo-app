@@ -12,6 +12,7 @@ import MainContainer from './components/MainContainer/MainContainer';
 import SignUp from './components/SignUp/SignUp';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
+import LoadingBox from './components/LoadingBox/LoadingBox';
 
 // TODO: make this return last active as active
 const getInitialState = () => {
@@ -29,16 +30,16 @@ const App = () => {
     const [signUpError, setSignUpError] = useState('');
 
     const [value, loadingDatabase, databaseError] = useObject(user ? firebase.database().ref('users/' + user.uid) : null);
-    const [ready, setReady] = useState(false);
+    const [online, setOnline] = useState(false);
 
     useEffect(() => {
-        if (user && !loadingDatabase && value && !ready) {
+        if (user && !loadingDatabase && value && !online) {
             const json = JSON.parse(value.node_.value_);
             setTodos(json);
             setActive(Object.keys(json)[0]);
-            setReady(true);
+            setOnline(true);
         }
-    }, [loadingDatabase, value, user, setTodos, setReady]);
+    }, [loadingDatabase, value, user, setTodos, setOnline]);
 
     const login = ( email, password ) => {
         firebase.auth().signInWithEmailAndPassword(email, password).then().catch((err) => {
@@ -48,7 +49,7 @@ const App = () => {
 
     const logout = () => {
         firebase.auth().signOut();
-        setReady(false);
+        setOnline(false);
     };
 
     const createUser = ( email, password) => {
@@ -65,8 +66,6 @@ const App = () => {
 
     return (
         <div className="container">
-            {userError && !user && <div>{userError}</div>}
-            {loadingUser && !user && <div>Loading user...</div>}
             <Router>
                 <Header
                     user={user}
@@ -75,11 +74,13 @@ const App = () => {
                     error={loginError}
                     setError={setLoginError}
                 />
+                {userError && !user && <LoadingBox text={userError} />}
+                {loadingUser && !user && <LoadingBox text="Logging in..." />}
                 <Switch>
                     <Route exact path="/">
-                        {databaseError && <div>{databaseError}</div>}
-                        {loadingDatabase && <div>Loading database..</div>}
-                        {!loadingDatabase && value && ready &&
+                        {databaseError && <LoadingBox text={userError} />}
+                        {loadingDatabase && <LoadingBox text="Loading database..." />}
+                        {!loadingDatabase && value && setOnline &&
                         <MainContainer
                             user={user}
                             getInitialState={getInitialState}

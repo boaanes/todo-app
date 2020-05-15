@@ -48,6 +48,7 @@ const App = () => {
 
     const logout = () => {
         firebase.auth().signOut();
+        setReady(false);
     };
 
     const createUser = ( email, password) => {

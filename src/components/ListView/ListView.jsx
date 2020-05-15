@@ -1,4 +1,4 @@
-import React  from 'react';
+import React, { useEffect }  from 'react';
 
 import { faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,7 +8,12 @@ import AddList from '../AddList/AddList';
 
 import './listView.scss';
 
-const ListView = ({ lists, setActive, addNewList, deleteList }) => {
+const ListView = ({ lists, setActive, addNewList, deleteList, saveData }) => {
+
+    useEffect(() => {
+        saveData();
+    });
+
     return (
         <>
         <ul>

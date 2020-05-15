@@ -4,6 +4,9 @@
     top: 0;
     right: 0;
 
+    display: grid;
+    grid-template-columns: 50% 50%;
+
     background-color: #152026;
     color: #d8dee9;
 
@@ -16,7 +19,6 @@
 }
 
 .header-container {
-    width: 90%;
     padding: 0.5rem;
     padding-left: 1rem;
     padding-right: 1rem;
@@ -34,5 +36,24 @@
     p {
         margin-left: 0.5rem;
         margin-right: 0.5rem;
+    }
+}
+
+@media (max-device-width: 415px), (max-width: 900px) {
+    .header {
+        display: grid;
+        grid-template-columns: 100%;
+        grid-template-rows: 2rem;
+        grid-gap: 0.5rem;
+        justify-content: center;
+    }
+
+    .header-container {
+        margin:auto;
+    }
+
+    .home-btn {
+        width: 200px;
+        margin: auto;
     }
 }

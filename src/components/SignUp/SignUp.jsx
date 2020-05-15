@@ -1,11 +1,9 @@
 import React, { useState, useContext, useEffect } from 'react';
 import firebase from '../../firebase.config';
 
-import { AuthContext } from '../../App';
-
 import './signUp.scss'
 
-const SignUp = () => {
+const SignUp = ({ user, create }) => {
 
     const [email, setEmail] = useState('');
     const [pwd, setPwd] = useState('');
@@ -17,8 +15,6 @@ const SignUp = () => {
     });
     const [valid, setValid] = useState(false);
     const [firebaseError, setFirebaseError] = useState('');
-
-    const Auth = useContext(AuthContext);
 
     useEffect(() => {
         if (email !== '' && pwd !== '' && confirmPwd !== '') {
@@ -76,19 +72,10 @@ const SignUp = () => {
 
     const createUser = ( evt ) => {
         if (valid) {
-            firebase.auth().createUserWithEmailAndPassword(email, pwd).then(res => {
-                if (res.user) Auth.setLoggedIn(true);
-
-                setEmail('');
-                setPwd('');
-                setConfirmPwd('');
-            }).catch((error) => {
-                var errorCode = error.code;
-                var errorMessage = error.message;
-
-                console.log(errorCode);
-                setFirebaseError(errorMessage);
-            });
+            create(email, pwd);
+            setEmail('');
+            setPwd('');
+            setConfirmPwd('');
         }
 
         evt.preventDefault();
@@ -97,9 +84,9 @@ const SignUp = () => {
     return (
         <div className="main-container">
             <h1>Sign up:</h1>
-            {Auth.loggedIn &&
+            {user &&
             <p>You are already signed in</p>}
-            {!Auth.loggedIn && <div>
+            {!user && <div>
                 <form onSubmit={createUser} id="form-signup">
                     <input
                         type="email"
@@ -130,7 +117,7 @@ const SignUp = () => {
                     <p className="error-msg">{errors.confirmPwdError}</p>
                 </form>
             </div>}
-            {!Auth.loggedIn && <div>
+            {!user && <div>
                 <button
                     type="submit"
                     form="form-signup"

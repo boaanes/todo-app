@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { faAngleUp, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,6 +9,10 @@ import EditList from '../EditList/EditList';
 import './title.scss';
 
 const Title = ( props ) => {
+
+    useEffect(() => {
+        props.saveData();
+    });
 
     return (
         <div className="title">

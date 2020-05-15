@@ -11,7 +11,7 @@ const HeaderError = ({ errorMsg, setError }) => {
 
     return (
         <div style={{display: 'flex'}}>
-            <p  className="error-msg" style={{marginRight: '1rem'}}>{errorMsg}</p>
+            <p className="error-msg" style={{marginRight: '1rem'}}>{errorMsg}</p>
             <button onClick={goBack}>
                 <FontAwesomeIcon
                     icon={faSignInAlt}

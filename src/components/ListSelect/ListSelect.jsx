@@ -30,7 +30,7 @@ const ListSelect = ( props ) => {
 
     // making sure title is always the active list
     useEffect(() => {
-        setTitle(props.active)
+        setTitle(props.active);
     }, [props]);
 
     const setActive = useCallback(( id, name ) => {
@@ -79,6 +79,7 @@ const ListSelect = ( props ) => {
                 editListName={editListName}
                 listOpen={listOpen}
                 setListOpen={setListOpen}
+                saveData={props.saveData}
             />
             <SlideDown>
                 {listOpen &&
@@ -88,6 +89,7 @@ const ListSelect = ( props ) => {
                     setActive={setActive}
                     addNewList={addNewList}
                     deleteList={deleteList}
+                    saveData={props.saveData}
                 />
                 }
             </SlideDown>

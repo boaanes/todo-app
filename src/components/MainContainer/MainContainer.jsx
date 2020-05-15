@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+
+import firebase from '../../firebase.config';
 
 import './mainContainer.scss';
 
@@ -8,23 +10,16 @@ import TodoList from '../TodoList/TodoList';
 import Todo from './Todo';
 import Summary from '../Summary/Summary';
 
-// TODO: make this return last active as active
-const getInitialState = () => {
-    const data = JSON.parse(localStorage.getItem('store'));
-    return (data !== null && data.length !== 0) ? [data, Object.keys(data)[0]] : [{"Todo-list" : []}, "Todo-list"];
-}
+const MainContainer = ({ getInitialState, saveData, todos, setTodos, active, setActive }) => {
 
-const MainContainer = () => {
-
-    const [todos, setTodos] = useState(() => getInitialState()[0]);
-    const [active, setActive] = useState(() => getInitialState()[1]);
+    const database = firebase.database();
 
     useEffect(() => {
         saveData();
     });
 
-    const saveData = () => {
-        localStorage.setItem('store', JSON.stringify(todos));
+    const updateActive = ( name ) => {
+        setActive(name);
     };
 
     const updateList = ( list, newList ) => {
@@ -66,22 +61,23 @@ const MainContainer = () => {
             <ListSelect
                 todos={todos}
                 active={active}
-                setActive={setActive}
+                setActive={updateActive}
                 addNewList={( name ) => {
                     setTodos(prevTodos => {
                         prevTodos[name] = [];
                         setActive(name);
+                        saveData();
                         return prevTodos;
                     });
                 }}
                 deleteList={( name ) => {
                     setTodos(prevTodos => {
                         delete prevTodos[name];
-                        saveData(); // needed, because it doesnt rerender parent
                         return prevTodos;
                     });
                 }}
                 editListName={editListName}
+                saveData={saveData}
             />
             <br/>
             <Summary

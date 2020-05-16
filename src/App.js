@@ -23,8 +23,8 @@ const getInitialState = () => {
 const App = () => {
 
     const [user, loadingUser, userError] = useAuthState(firebase.auth());
-    const [todos, setTodos] = useState({"Todo-list" : []});
-    const [active, setActive] = useState("Todo-list");
+    const [todos, setTodos] = useState(() => getInitialState()[0]);
+    const [active, setActive] = useState(() => getInitialState()[1]);
 
     const [loginError, setLoginError] = useState('');
     const [signUpError, setSignUpError] = useState('');
@@ -34,9 +34,14 @@ const App = () => {
 
     useEffect(() => {
         if (user && !loadingDatabase && value && !online) {
-            const json = JSON.parse(value.node_.value_);
-            setTodos(json);
-            setActive(Object.keys(json)[0]);
+            if (value.node_.value_) {
+                const json = JSON.parse(value.node_.value_);
+                setTodos(json);
+                setActive(Object.keys(json)[0]);
+            } else {
+                setTodos(() => getInitialState()[0]);
+                setActive(() => getInitialState()[1]);
+            }
             setOnline(true);
         }
     }, [loadingDatabase, value, user, setTodos, setOnline]);
@@ -50,6 +55,8 @@ const App = () => {
     const logout = () => {
         firebase.auth().signOut();
         setOnline(false);
+        setTodos(() => getInitialState()[0]);
+        setActive(() => getInitialState()[1]);
     };
 
     const createUser = ( email, password) => {
@@ -59,8 +66,10 @@ const App = () => {
     };
 
     const saveData = () => {
-        if (user) {
+        if (user && online) {
             firebase.database().ref('users/' + user.uid).set(JSON.stringify(todos));
+        } else {
+            localStorage.setItem('store', JSON.stringify(todos));
         }
     };
 
@@ -81,6 +90,16 @@ const App = () => {
                         {databaseError && <LoadingBox text={userError} />}
                         {loadingDatabase && <LoadingBox text="Loading database..." />}
                         {!loadingDatabase && value && setOnline &&
+                        <MainContainer
+                            user={user}
+                            getInitialState={getInitialState}
+                            saveData={saveData}
+                            todos={todos}
+                            setTodos={setTodos}
+                            active={active}
+                            setActive={setActive}
+                        />}
+                        {!user && !loadingUser && !online &&
                         <MainContainer
                             user={user}
                             getInitialState={getInitialState}

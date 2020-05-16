@@ -1,0 +1,34 @@
+.login-grid {
+    display: grid;
+    grid-template-columns: 53% 47%;
+}
+
+.login-container {
+    display: flex;
+
+    button {
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
+    }
+
+    &.top {
+        display: flex;
+        flex-direction: row-reverse;
+    }
+}
+
+@media (max-device-width: 415px), (max-width: 900px) {
+    .login-grid {
+        display: grid;
+        grid-template-columns: 100%;
+        justify-content: center;
+    }
+
+    .login-container {
+        margin: auto;
+
+        &.top {
+            padding-bottom: 0.5rem;
+        }
+    }
+}

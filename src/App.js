@@ -13,6 +13,7 @@ import SignUp from './components/SignUp/SignUp';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import LoadingBox from './components/LoadingBox/LoadingBox';
+import ForgotPassword from './components/ForgotPassword/ForgotPassword';
 
 // TODO: make this return last active as active
 const getInitialState = () => {
@@ -28,12 +29,18 @@ const App = () => {
 
     const [loginError, setLoginError] = useState('');
     const [signUpError, setSignUpError] = useState('');
+    const [resetError, setResetError] = useState('');
 
     const [value, loadingDatabase, databaseError] = useObject(user ? firebase.database().ref('users/' + user.uid) : null);
     const [online, setOnline] = useState(false);
 
     useEffect(() => {
-        if (user && !loadingDatabase && value && !online) {
+        if (!user && online) {
+            console.log("here");
+            setOnline(false);
+            setTodos(() => getInitialState()[0]);
+            setActive(() => getInitialState()[1]);
+        } else if (user && !loadingDatabase && value && !online) {
             // bad practice??
             if (value.node_.value_) {
                 const json = JSON.parse(value.node_.value_);
@@ -55,9 +62,6 @@ const App = () => {
 
     const logout = () => {
         firebase.auth().signOut();
-        setOnline(false)
-        setTodos(() => getInitialState()[0]);
-        setActive(() => getInitialState()[1]);
     };
 
     const createUser = ( email, password) => {
@@ -66,10 +70,18 @@ const App = () => {
         });
     };
 
+    const resetPassword = ( email ) => {
+        firebase.auth().sendPasswordResetEmail(email).then(function() {
+            console.log("sent email");
+        }).catch(function(error) {
+            setResetError(error.message);
+        });
+    }
+
     const saveData = () => {
         if (user && online) {
             firebase.database().ref('users/' + user.uid).set(JSON.stringify(todos));
-        } else {
+        } else if (!user && !online) {
             localStorage.setItem('store', JSON.stringify(todos));
         }
     };
@@ -90,7 +102,7 @@ const App = () => {
                     <Route exact path="/">
                         {databaseError && <LoadingBox text={userError} />}
                         {loadingDatabase && <LoadingBox text="Loading data..." />}
-                        {!loadingDatabase && value && setOnline &&
+                        {!loadingDatabase && value && online &&
                         <MainContainer
                             user={user}
                             getInitialState={getInitialState}
@@ -116,6 +128,13 @@ const App = () => {
                             user={user}
                             create={createUser}
                             firebaseError={signUpError}
+                        />
+                    </Route>
+                    <Route path="/reset-password">
+                        <ForgotPassword
+                            user={user}
+                            reset={resetPassword}
+                            firebaseError={resetError}
                         />
                     </Route>
                 </Switch>

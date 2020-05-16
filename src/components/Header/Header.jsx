@@ -13,32 +13,34 @@ const Header = ({ user, login, logout, error, setError }) => {
 
     return (
         <div className="header">
-            <div className="header-container">
+            <div className="header-container left">
                 <Link to="/">
                     <button className="header-btn home-btn"><FontAwesomeIcon icon={faHome} size="2x" /></button>
                 </Link>
             </div>
-            <div className="header-container">
+            <div className="header-container" style={{margin: (error !== '') ? 'auto' : ''}}>
                 {!user &&
                     <>
                     {error === '' &&
-                        <div className="right">
+                        <div>
                             <SignIn login={login} />
                         </div>
                     }
                     {error !== '' &&
-                        <div className="right">
+                        <div>
                             <HeaderError errorMsg={error} setError={setError} />
                         </div>
                     }
                     </>
                 }
                 {user &&
-                    <div className="login-container right">
-                        <p>{user.email}</p>
-                        <Link to="/">
-                            <button className="header-btn" onClick={logout}>Sign Out</button>
-                        </Link>
+                    <div className="login-container">
+                        <div style={{margin: 'auto', display: 'flex'}}>
+                            <p>{user.email}</p>
+                            <Link to="/">
+                                <button className="header-btn" onClick={logout}>Sign Out</button>
+                            </Link>
+                        </div>
                     </div>
                 }
             </div>

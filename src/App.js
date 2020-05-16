@@ -29,7 +29,7 @@ const App = () => {
 
     const [loginError, setLoginError] = useState('');
     const [signUpError, setSignUpError] = useState('');
-    const [resetError, setResetError] = useState('');
+    const [resetStatus, setResetStatus] = useState('');
 
     const [value, loadingDatabase, databaseError] = useObject(user ? firebase.database().ref('users/' + user.uid) : null);
     const [online, setOnline] = useState(false);
@@ -72,9 +72,9 @@ const App = () => {
 
     const resetPassword = ( email ) => {
         firebase.auth().sendPasswordResetEmail(email).then(function() {
-            console.log("sent email");
+            setResetStatus("Email sent");
         }).catch(function(error) {
-            setResetError(error.message);
+            setResetStatus(error.message);
         });
     }
 
@@ -134,7 +134,7 @@ const App = () => {
                         <ForgotPassword
                             user={user}
                             reset={resetPassword}
-                            firebaseError={resetError}
+                            status={resetStatus}
                         />
                     </Route>
                 </Switch>

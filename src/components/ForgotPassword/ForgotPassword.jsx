@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const ForgotPassword = ({ user, reset, firebaseError }) => {
+const ForgotPassword = ({ user, reset, status }) => {
 
     const [email, setEmail] = useState('');
 
@@ -33,7 +33,7 @@ const ForgotPassword = ({ user, reset, firebaseError }) => {
                     className="center-btn"
                 >Send email</button>
             </div>
-            <p style={{marginTop: '1rem'}} className="error-msg">{firebaseError}</p>
+            <p style={{marginTop: '1rem'}} className="error-msg">{status}</p>
         </div>
     );
 };

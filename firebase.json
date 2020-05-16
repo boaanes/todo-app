@@ -1,13 +1,17 @@
 {
-  "hosting": {
-    "site": "aanes-todo-app",
-    "public": "build",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**",
-      ".git",
-      ".gitignore"
-    ]
-  }
+    "hosting": {
+        "site": "aanes-todo-app",
+        "public": "build",
+        "ignore": [
+            "firebase.json",
+            "**/.*",
+            "**/node_modules/**",
+            ".git",
+            ".gitignore"
+        ],
+        "rewrites": [{
+            "source": "**",
+            "destination": "/index.html"
+        }]
+    }
 }

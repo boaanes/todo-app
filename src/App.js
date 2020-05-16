@@ -54,6 +54,7 @@ const App = () => {
     }, [loadingDatabase, value, user, setTodos, online, setOnline]);
 
     const login = ( email, password ) => {
+        setResetStatus('');
         firebase.auth().signInWithEmailAndPassword(email, password).then().catch((err) => {
             setLoginError(err.message);
         });

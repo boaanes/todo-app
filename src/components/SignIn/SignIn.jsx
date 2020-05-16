@@ -1,5 +1,4 @@
-import React, { useState, useContext, useCallback } from 'react';
-import firebase from '../../firebase.config';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const SignIn = ({ login, setError }) => {

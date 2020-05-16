@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { faHome } from "@fortawesome/free-solid-svg-icons";

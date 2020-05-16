@@ -1,6 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
-
-import firebase from '../../firebase.config';
+import React, { useEffect } from 'react';
 
 import './mainContainer.scss';
 
@@ -11,8 +9,6 @@ import Todo from './Todo';
 import Summary from '../Summary/Summary';
 
 const MainContainer = ({ getInitialState, saveData, todos, setTodos, active, setActive }) => {
-
-    const database = firebase.database();
 
     useEffect(() => {
         saveData();

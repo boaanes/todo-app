@@ -1,9 +1,8 @@
-import React, { useState, useContext, useEffect } from 'react';
-import firebase from '../../firebase.config';
+import React, { useState, useEffect } from 'react';
 
 import './signUp.scss'
 
-const SignUp = ({ user, create }) => {
+const SignUp = ({ user, create, firebaseError }) => {
 
     const [email, setEmail] = useState('');
     const [pwd, setPwd] = useState('');
@@ -14,7 +13,6 @@ const SignUp = ({ user, create }) => {
         confirmPwdError: ''
     });
     const [valid, setValid] = useState(false);
-    const [firebaseError, setFirebaseError] = useState('');
 
     useEffect(() => {
         if (email !== '' && pwd !== '' && confirmPwd !== '') {
@@ -37,7 +35,7 @@ const SignUp = ({ user, create }) => {
             case 'email':
                 setEmail(evt.target.value);
 
-                if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(evt.target.value)) {
+                if (/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(evt.target.value)) {
                     setErrors({...errors, emailError: ''});
                 } else {
                     setErrors({...errors, emailError: 'please enter a correct email address'});

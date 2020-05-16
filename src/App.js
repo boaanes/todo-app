@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -34,6 +34,7 @@ const App = () => {
 
     useEffect(() => {
         if (user && !loadingDatabase && value && !online) {
+            // bad practice??
             if (value.node_.value_) {
                 const json = JSON.parse(value.node_.value_);
                 setTodos(json);
@@ -44,7 +45,7 @@ const App = () => {
             }
             setOnline(true);
         }
-    }, [loadingDatabase, value, user, setTodos, setOnline]);
+    }, [loadingDatabase, value, user, setTodos, online, setOnline]);
 
     const login = ( email, password ) => {
         firebase.auth().signInWithEmailAndPassword(email, password).then().catch((err) => {
@@ -54,7 +55,7 @@ const App = () => {
 
     const logout = () => {
         firebase.auth().signOut();
-        setOnline(false);
+        setOnline(false)
         setTodos(() => getInitialState()[0]);
         setActive(() => getInitialState()[1]);
     };
@@ -88,7 +89,7 @@ const App = () => {
                 <Switch>
                     <Route exact path="/">
                         {databaseError && <LoadingBox text={userError} />}
-                        {loadingDatabase && <LoadingBox text="Loading database..." />}
+                        {loadingDatabase && <LoadingBox text="Loading data..." />}
                         {!loadingDatabase && value && setOnline &&
                         <MainContainer
                             user={user}
@@ -111,7 +112,11 @@ const App = () => {
                         />}
                     </Route>
                     <Route path="/signup">
-                        <SignUp user={user} create={createUser}/>
+                        <SignUp
+                            user={user}
+                            create={createUser}
+                            firebaseError={signUpError}
+                        />
                     </Route>
                 </Switch>
             </Router>

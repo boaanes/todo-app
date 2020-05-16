@@ -36,7 +36,6 @@ const App = () => {
 
     useEffect(() => {
         if (!user && online) {
-            console.log("here");
             setOnline(false);
             setTodos(() => getInitialState()[0]);
             setActive(() => getInitialState()[1]);

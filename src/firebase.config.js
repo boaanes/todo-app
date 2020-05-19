@@ -4,7 +4,6 @@ import 'firebase/database';
 import 'firebase/analytics';
 
 require('dotenv').config();
-console.log(process.env);
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_API_KEY,

@@ -8,7 +8,7 @@ import TodoList from '../TodoList/TodoList';
 import Todo from './Todo';
 import Summary from '../Summary/Summary';
 
-const MainContainer = ({ getInitialState, saveData, todos, setTodos, active, setActive }) => {
+const MainContainer = ({ getLocalStorage, saveData, todos, setTodos, active, setActive }) => {
 
     useEffect(() => {
         saveData();

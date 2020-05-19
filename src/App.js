@@ -16,7 +16,7 @@ import LoadingBox from './components/LoadingBox/LoadingBox';
 import ForgotPassword from './components/ForgotPassword/ForgotPassword';
 
 // TODO: make this return last active as active
-const getInitialState = () => {
+const getLocalStorage = () => {
     const data = JSON.parse(localStorage.getItem('store'));
     return (data !== null && data.length !== 0) ? [data, Object.keys(data)[0]] : [{"Todo-list" : []}, "Todo-list"];
 }
@@ -24,8 +24,8 @@ const getInitialState = () => {
 const App = () => {
 
     const [user, loadingUser, userError] = useAuthState(firebase.auth());
-    const [todos, setTodos] = useState(() => getInitialState()[0]);
-    const [active, setActive] = useState(() => getInitialState()[1]);
+    const [todos, setTodos] = useState(() => getLocalStorage()[0]);
+    const [active, setActive] = useState(() => getLocalStorage()[1]);
 
     const [loginError, setLoginError] = useState('');
     const [signUpError, setSignUpError] = useState('');
@@ -37,8 +37,8 @@ const App = () => {
     useEffect(() => {
         if (!user && online) {
             setOnline(false);
-            setTodos(() => getInitialState()[0]);
-            setActive(() => getInitialState()[1]);
+            setTodos(() => getLocalStorage()[0]);
+            setActive(() => getLocalStorage()[1]);
         } else if (user && !loadingDatabase && value && !online) {
             // bad practice??
             if (value.node_.value_) {
@@ -46,12 +46,16 @@ const App = () => {
                 setTodos(json);
                 setActive(Object.keys(json)[0]);
             } else {
-                setTodos(() => getInitialState()[0]);
-                setActive(() => getInitialState()[1]);
+                setTodos(() => getLocalStorage()[0]);
+                setActive(() => getLocalStorage()[1]);
             }
             setOnline(true);
         }
     }, [loadingDatabase, value, user, setTodos, online, setOnline]);
+
+    const handleError = ( code, message ) => {
+        
+    };
 
     const login = ( email, password ) => {
         setResetStatus('');
@@ -105,7 +109,7 @@ const App = () => {
                         {!loadingDatabase && value && online &&
                         <MainContainer
                             user={user}
-                            getInitialState={getInitialState}
+                            getLocalStorage={getLocalStorage}
                             saveData={saveData}
                             todos={todos}
                             setTodos={setTodos}
@@ -115,7 +119,7 @@ const App = () => {
                         {!user && !loadingUser && !online &&
                         <MainContainer
                             user={user}
-                            getInitialState={getInitialState}
+                            getLocalStorage={getLocalStorage}
                             saveData={saveData}
                             todos={todos}
                             setTodos={setTodos}

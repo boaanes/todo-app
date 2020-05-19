@@ -53,11 +53,32 @@ const App = () => {
         }
     }, [loadingDatabase, value, user, setTodos, online, setOnline]);
 
+    const handleError = ( err ) => {
+        switch(err.code) {
+            case 'auth/internal-error':
+                if (err.message.includes('"status":"PERMISSION_DENIED"')) return 'permission denied, your browser shields may be breaking the website';
+                else return 'Something went wrong, please try again later...';
+            case 'auth/email-already-exists':
+                return 'That email address is already in use';
+            case 'auth/email-already-in-use':
+                return 'That email address is already in use';
+            case 'auth/invalid-email':
+                return 'Your email address seems to be badly formatted';
+            case 'auth/invalid-email-verified':
+                return 'Please verify your email address';
+            case 'auth/invalid-password':
+                return 'Password is invalid, please try again';
+            case 'auth/wrong-password':
+                return 'Wrong combination of email and password, please try again';
+            case 'auth/user-not-found':
+                return 'Email address not found, please try again';
+            default:
+                return 'Something went wrong, please try again later... ' + err.code;
+        }
+    };
+
     const login = ( email, password ) => {
-        setResetStatus('');
-        firebase.auth().signInWithEmailAndPassword(email, password).then().catch((err) => {
-            setLoginError(err.message);
-        });
+        firebase.auth().signInWithEmailAndPassword(email, password).then().catch(err => setLoginError(handleError(err)));
     };
 
     const logout = () => {
@@ -65,17 +86,11 @@ const App = () => {
     };
 
     const createUser = ( email, password) => {
-        firebase.auth().createUserWithEmailAndPassword(email, password).then().catch(err => {
-            setSignUpError(err.message);
-        });
+        firebase.auth().createUserWithEmailAndPassword(email, password).then().catch(err => setSignUpError(handleError(err)));
     };
 
     const resetPassword = ( email ) => {
-        firebase.auth().sendPasswordResetEmail(email).then(function() {
-            setResetStatus("Email sent");
-        }).catch(function(error) {
-            setResetStatus(error.message);
-        });
+        firebase.auth().sendPasswordResetEmail(email).then(() => setResetStatus("Email sent")).catch(err => setResetStatus(handleError(err)));
     }
 
     const saveData = () => {

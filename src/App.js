@@ -40,9 +40,8 @@ const App = () => {
             setTodos(() => getLocalStorage()[0]);
             setActive(() => getLocalStorage()[1]);
         } else if (user && !loadingDatabase && value && !online) {
-            // bad practice??
-            if (value.node_.value_) {
-                const json = JSON.parse(value.node_.value_);
+            if (value.val()) {
+                const json = JSON.parse(value.val());
                 setTodos(json);
                 setActive(Object.keys(json)[0]);
             } else {
@@ -91,7 +90,7 @@ const App = () => {
 
     const resetPassword = ( email ) => {
         firebase.auth().sendPasswordResetEmail(email).then(() => setResetStatus("Email sent")).catch(err => setResetStatus(handleError(err)));
-    }
+    };
 
     const saveData = () => {
         if (user && online) {

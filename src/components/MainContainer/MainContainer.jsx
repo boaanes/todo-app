@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import './mainContainer.scss';
 
@@ -10,77 +10,80 @@ import Summary from '../Summary/Summary';
 
 const MainContainer = ({ getLocalStorage, saveData, todos, setTodos, active, setActive }) => {
 
-    const updateActive = ( name ) => {
-        setActive(name);
-    };
+    const updateActive = useCallback(( id ) => {
+        setActive(todos[id]);
+    }, [setActive, todos]);
 
-    const updateList = ( list, newList ) => {
-        setTodos({...todos, [list]: newList});
-        saveData({...todos, [list]: newList});
-    };
+    const updateList = useCallback(( id, newList ) => {
+        setTodos({...todos, [String(id)]: newList});
+        setActive(newList);
+        saveData({...todos, [String(id)]: newList});
+    }, [todos, setTodos, setActive, saveData]);
 
     const newTodo = ( text ) => {
         if (text !== '') {
-            const id = (todos[active].length === 0) ? 0 : todos[active][todos[active].length - 1].id + 1;
-            const newList = todos[active].concat(new Todo(id, text, false));
-            updateList(active, newList);
+            const items = active.items;
+            const id = (items.length === 0) ? 0 : items.slice(-1)[0].id + 1;
+            const newList = {"id":active.id,"name":active.name,"items":items.concat(new Todo(id, text, false))};
+            updateList(active.id, newList);
         }
     };
 
     const checkTodo = ( id ) => {
-        const newList = todos[active];
+        const newList = active.items;
         newList.forEach(( todo ) => {
             if (todo.id === id) todo.completed = !todo.completed;
         });
 
-        updateList(active, newList);
+        updateList(active.id, {"id":active.id,"name":active.name,"items":newList});
     };
 
     const deleteTodo = ( id ) => {
-        const newList = todos[active].filter(todo => todo.id !== id);
-        updateList(active, newList);
+        const newList = active.items.filter(todo => todo.id !== id);
+        updateList(active.id, {"id":active.id,"name":active.name,"items":newList});
     };
 
     const editListName = ( name ) => {
-        if (name !== active) {
-            Object.defineProperty(todos, name, Object.getOwnPropertyDescriptor(todos, active));
-            delete todos[active];
-            setActive(name);
-            saveData(todos);
+        if (name !== active.name) {
+            const newList = {"id":active.id,"name":name,"items":active.items};
+            updateList(active.id, newList);
         }
     };
+
+    const addNewList = useCallback(( name ) => {
+        const id = parseInt(Object.keys(todos).slice(-1)[0]) + 1;
+        setTodos(prevTodos => {
+            prevTodos[id] = {"id":id,"name":name,"items":[]};
+            saveData(prevTodos);
+            return prevTodos;
+        });
+    }, [todos, setTodos, saveData]);
+
+    const deleteList = useCallback(( id ) => {
+        const current = JSON.parse(JSON.stringify(todos));
+        delete current[id];
+        setTodos(current);
+        saveData(current);
+    }, [todos, setTodos, saveData]);
 
     return (
         <div className="main-container">
             <ListSelect
                 todos={todos}
                 active={active}
-                setActive={updateActive}
-                addNewList={( name ) => {
-                    setTodos(prevTodos => {
-                        prevTodos[name] = [];
-                        setActive(name);
-                        saveData(prevTodos);
-                        return prevTodos;
-                    });
-                }}
-                deleteList={( name ) => {
-                    setTodos(prevTodos => {
-                        delete prevTodos[name];
-                        saveData(prevTodos);
-                        return prevTodos;
-                    });
-                }}
-                editListName={editListName}
+                setActive={( id ) => updateActive(id)}
+                addNewList={( name ) => addNewList(name)}
+                deleteList={( id ) => deleteList(id)}
+                editListName={( name ) => editListName(name)}
             />
             <br/>
             <Summary
-                todoCount={todos[active].length}
-                completedCount={todos[active].filter(todo => todo.completed === true).length}
+                todoCount={active.items.length}
+                completedCount={active.items.filter(todo => todo.completed === true).length}
             />
             <AddTodo onAddClick={newTodo} />
             <TodoList
-                todoItems={todos[active]}
+                todoItems={active.items}
                 onDeleteClick={deleteTodo}
                 onCheckClick={checkTodo}
             />

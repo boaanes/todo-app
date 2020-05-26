@@ -18,14 +18,14 @@ import ForgotPassword from './components/ForgotPassword/ForgotPassword';
 // TODO: make this return last active as active
 const getLocalStorage = () => {
     const data = JSON.parse(localStorage.getItem('store'));
-    return (data !== null && data.length !== 0) ? [data, Object.keys(data)[0]] : [{"Todo-list" : []}, "Todo-list"];
+    return (data !== null && data.length !== 0) ? data : {"0":{"id":0,"name":"Todo-list","items":[]}};
 }
 
 const App = () => {
 
     const [user, loadingUser, userError] = useAuthState(firebase.auth());
-    const [todos, setTodos] = useState(() => getLocalStorage()[0]);
-    const [active, setActive] = useState(() => getLocalStorage()[1]);
+    const [todos, setTodos] = useState(() => getLocalStorage());
+    const [active, setActive] = useState(Object.values(todos)[0]);
 
     const [loginError, setLoginError] = useState('');
     const [signUpError, setSignUpError] = useState('');
@@ -37,18 +37,15 @@ const App = () => {
     useEffect(() => {
         if (!user && online) {
             setOnline(false);
-            setTodos(() => getLocalStorage()[0]);
-            setActive(() => getLocalStorage()[1]);
-        } else if (user && !loadingDatabase && snapshot && !online) {
+            setTodos(() => getLocalStorage());
+            setActive(() => Object.values(getLocalStorage())[0]);
+        } else if (user && !loadingDatabase && snapshot) {
             if (snapshot.val()) {
                 const json = JSON.parse(snapshot.val());
                 setTodos(json);
-                setActive(Object.keys(json)[0]);
-            } else {
-                setTodos(() => getLocalStorage()[0]);
-                setActive(() => getLocalStorage()[1]);
+                setActive(Object.values(json)[0]);
             }
-            setOnline(true);
+            if (!online) setOnline(true);
         }
     }, [loadingDatabase, snapshot, user, setTodos, online, setOnline]);
 
@@ -122,7 +119,7 @@ const App = () => {
                             getLocalStorage={getLocalStorage}
                             saveData={saveData}
                             todos={JSON.parse(snapshot.val())}
-                            setTodos={setTodos}
+                            setTodos={(newTodos) => setTodos(newTodos)}
                             active={active}
                             setActive={setActive}
                         />}

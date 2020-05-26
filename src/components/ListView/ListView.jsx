@@ -8,17 +8,17 @@ import AddList from '../AddList/AddList';
 
 import './listView.scss';
 
-const ListView = ({ lists, setActive, addNewList, deleteList }) => {
+const ListView = ({ todos, active, setActive, addNewList, deleteList }) => {
 
     return (
         <>
         <ul>
-            {lists.map((list) => (
-                <li key={list.id} style={{display: list.selected ? 'none' : ''}}>
-                    <div onClick={() => setActive(list.id, list.name)}>
-                        <label>{list.name}</label>
+            {Object.keys(todos).map((listID) => (
+                <li key={listID} style={{display: (String(active.id) === listID) ? 'none' : ''}}>
+                    <div onClick={() => setActive(listID)}>
+                        <label>{todos[listID].name}</label>
                     </div>
-                    <FontAwesomeIcon className="delete-icon" icon={faTrash} onClick={() => deleteList(list.id, list.name)} />
+                    <FontAwesomeIcon className="delete-icon" icon={faTrash} onClick={() => deleteList(listID)} />
                 </li>
             ))}
             <li>
@@ -27,7 +27,7 @@ const ListView = ({ lists, setActive, addNewList, deleteList }) => {
                         <FontAwesomeIcon className="add-icon" icon={faPlus} />
                     </div>
                 )}>
-                    <AddList onAddClick={addNewList}/>
+                    <AddList onAddClick={addNewList} />
                 </Modal>
             </li>
         </ul>

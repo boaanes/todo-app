@@ -15,7 +15,6 @@ import Footer from './components/Footer/Footer';
 import LoadingBox from './components/LoadingBox/LoadingBox';
 import ForgotPassword from './components/ForgotPassword/ForgotPassword';
 
-// TODO: make this return last active as active
 const getLocalStorage = () => {
     const data = JSON.parse(localStorage.getItem('store'));
     return (data !== null && data.length !== 0) ? data : {"0":{"id":0,"name":"Todo-list","items":[]}};

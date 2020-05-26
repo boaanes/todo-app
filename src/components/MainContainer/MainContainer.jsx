@@ -50,6 +50,7 @@ const MainContainer = ({ getLocalStorage, saveData, todos, setTodos, active, set
         }
     };
 
+    // TODO: make new list active
     const addNewList = useCallback(( name ) => {
         const id = parseInt(Object.keys(todos).slice(-1)[0]) + 1;
         setTodos(prevTodos => {

@@ -13,16 +13,13 @@ const ListSelect = ( props ) => {
 
     const [listOpen, setListOpen] = useState(false);
 
-    // TODO: verify this
     const addNewList = useCallback(( name ) => {
         props.addNewList(name);
-        setListOpen(false);
-    }, [props, setListOpen]);
+    }, [props]);
 
     const editListName = useCallback(( name ) => {
         props.editListName(name);
-        setListOpen(false);
-    }, [props, setListOpen]);
+    }, [props]);
 
     const deleteList = useCallback((id) => {
         if (listOpen) {

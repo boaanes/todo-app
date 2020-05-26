@@ -12,7 +12,7 @@ const AddList = ({ onAddClick, setVisible }) => {
     const handleClick = useCallback(() => {
         if (text !== '') {
             setVisible(false);
-            onAddClick(text)
+            onAddClick(text);
         }
     }, [onAddClick, setVisible, text]);
 

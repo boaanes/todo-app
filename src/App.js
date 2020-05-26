@@ -15,42 +15,38 @@ import Footer from './components/Footer/Footer';
 import LoadingBox from './components/LoadingBox/LoadingBox';
 import ForgotPassword from './components/ForgotPassword/ForgotPassword';
 
-// TODO: make this return last active as active
 const getLocalStorage = () => {
-    const data = JSON.parse(localStorage.getItem('store'));
-    return (data !== null && data.length !== 0) ? [data, Object.keys(data)[0]] : [{"Todo-list" : []}, "Todo-list"];
+    const data = JSON.parse(localStorage.getItem('todo-lists'));
+    return (data !== null && data.length !== 0) ? data : {"0":{"id":0,"name":"Todo-list","items":[]}};
 }
 
 const App = () => {
 
     const [user, loadingUser, userError] = useAuthState(firebase.auth());
-    const [todos, setTodos] = useState(() => getLocalStorage()[0]);
-    const [active, setActive] = useState(() => getLocalStorage()[1]);
+    const [todos, setTodos] = useState(() => getLocalStorage());
+    const [active, setActive] = useState(Object.values(todos)[0]);
 
     const [loginError, setLoginError] = useState('');
     const [signUpError, setSignUpError] = useState('');
     const [resetStatus, setResetStatus] = useState('');
 
-    const [value, loadingDatabase, databaseError] = useObject(user ? firebase.database().ref('users/' + user.uid) : null);
+    const [snapshot, loadingDatabase, databaseError] = useObject(user ? firebase.database().ref('users/' + user.uid) : null);
     const [online, setOnline] = useState(false);
 
     useEffect(() => {
         if (!user && online) {
             setOnline(false);
-            setTodos(() => getLocalStorage()[0]);
-            setActive(() => getLocalStorage()[1]);
-        } else if (user && !loadingDatabase && value && !online) {
-            if (value.val()) {
-                const json = JSON.parse(value.val());
+            setTodos(() => getLocalStorage());
+            setActive(() => Object.values(getLocalStorage())[0]);
+        } else if (user && !loadingDatabase && snapshot) {
+            if (snapshot.val()) {
+                const json = JSON.parse(snapshot.val());
                 setTodos(json);
-                setActive(Object.keys(json)[0]);
-            } else {
-                setTodos(() => getLocalStorage()[0]);
-                setActive(() => getLocalStorage()[1]);
+                setActive(Object.values(json)[0]);
             }
-            setOnline(true);
+            if (!online) setOnline(true);
         }
-    }, [loadingDatabase, value, user, setTodos, online, setOnline]);
+    }, [loadingDatabase, snapshot, user, setTodos, online, setOnline]);
 
     const handleError = ( err ) => {
         switch(err.code) {
@@ -92,11 +88,11 @@ const App = () => {
         firebase.auth().sendPasswordResetEmail(email).then(() => setResetStatus("Email sent")).catch(err => setResetStatus(handleError(err)));
     };
 
-    const saveData = () => {
+    const saveData = ( data ) => {
         if (user && online) {
-            firebase.database().ref('users/' + user.uid).set(JSON.stringify(todos));
+            firebase.database().ref('users/' + user.uid).set(JSON.stringify(data));
         } else if (!user && !online) {
-            localStorage.setItem('store', JSON.stringify(todos));
+            localStorage.setItem('todo-lists', JSON.stringify(data));
         }
     };
 
@@ -116,13 +112,13 @@ const App = () => {
                     <Route exact path="/">
                         {databaseError && <LoadingBox text={userError} />}
                         {loadingDatabase && <LoadingBox text="Loading data..." />}
-                        {!loadingDatabase && value && online &&
+                        {!loadingDatabase && snapshot && online &&
                         <MainContainer
                             user={user}
                             getLocalStorage={getLocalStorage}
                             saveData={saveData}
-                            todos={todos}
-                            setTodos={setTodos}
+                            todos={JSON.parse(snapshot.val())}
+                            setTodos={(newTodos) => setTodos(newTodos)}
                             active={active}
                             setActive={setActive}
                         />}

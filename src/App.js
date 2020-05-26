@@ -16,7 +16,7 @@ import LoadingBox from './components/LoadingBox/LoadingBox';
 import ForgotPassword from './components/ForgotPassword/ForgotPassword';
 
 const getLocalStorage = () => {
-    const data = JSON.parse(localStorage.getItem('store'));
+    const data = JSON.parse(localStorage.getItem('todo-lists'));
     return (data !== null && data.length !== 0) ? data : {"0":{"id":0,"name":"Todo-list","items":[]}};
 }
 
@@ -92,7 +92,7 @@ const App = () => {
         if (user && online) {
             firebase.database().ref('users/' + user.uid).set(JSON.stringify(data));
         } else if (!user && !online) {
-            localStorage.setItem('store', JSON.stringify(data));
+            localStorage.setItem('todo-lists', JSON.stringify(data));
         }
     };
 

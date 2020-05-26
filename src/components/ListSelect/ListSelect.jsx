@@ -79,7 +79,6 @@ const ListSelect = ( props ) => {
                 editListName={editListName}
                 listOpen={listOpen}
                 setListOpen={setListOpen}
-                saveData={props.saveData}
             />
             <SlideDown>
                 {listOpen &&
@@ -89,7 +88,6 @@ const ListSelect = ( props ) => {
                     setActive={setActive}
                     addNewList={addNewList}
                     deleteList={deleteList}
-                    saveData={props.saveData}
                 />
                 }
             </SlideDown>

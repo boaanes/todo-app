@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import './mainContainer.scss';
 
@@ -10,16 +10,13 @@ import Summary from '../Summary/Summary';
 
 const MainContainer = ({ getLocalStorage, saveData, todos, setTodos, active, setActive }) => {
 
-    useEffect(() => {
-        saveData();
-    });
-
     const updateActive = ( name ) => {
         setActive(name);
     };
 
     const updateList = ( list, newList ) => {
         setTodos({...todos, [list]: newList});
+        saveData({...todos, [list]: newList});
     };
 
     const newTodo = ( text ) => {
@@ -49,6 +46,7 @@ const MainContainer = ({ getLocalStorage, saveData, todos, setTodos, active, set
             Object.defineProperty(todos, name, Object.getOwnPropertyDescriptor(todos, active));
             delete todos[active];
             setActive(name);
+            saveData(todos);
         }
     };
 
@@ -62,18 +60,18 @@ const MainContainer = ({ getLocalStorage, saveData, todos, setTodos, active, set
                     setTodos(prevTodos => {
                         prevTodos[name] = [];
                         setActive(name);
-                        saveData();
+                        saveData(prevTodos);
                         return prevTodos;
                     });
                 }}
                 deleteList={( name ) => {
                     setTodos(prevTodos => {
                         delete prevTodos[name];
+                        saveData(prevTodos);
                         return prevTodos;
                     });
                 }}
                 editListName={editListName}
-                saveData={saveData}
             />
             <br/>
             <Summary

@@ -31,7 +31,7 @@ const App = () => {
     const [signUpError, setSignUpError] = useState('');
     const [resetStatus, setResetStatus] = useState('');
 
-    const [value, loadingDatabase, databaseError] = useObject(user ? firebase.database().ref('users/' + user.uid) : null);
+    const [snapshot, loadingDatabase, databaseError] = useObject(user ? firebase.database().ref('users/' + user.uid) : null);
     const [online, setOnline] = useState(false);
 
     useEffect(() => {
@@ -39,9 +39,9 @@ const App = () => {
             setOnline(false);
             setTodos(() => getLocalStorage()[0]);
             setActive(() => getLocalStorage()[1]);
-        } else if (user && !loadingDatabase && value && !online) {
-            if (value.val()) {
-                const json = JSON.parse(value.val());
+        } else if (user && !loadingDatabase && snapshot && !online) {
+            if (snapshot.val()) {
+                const json = JSON.parse(snapshot.val());
                 setTodos(json);
                 setActive(Object.keys(json)[0]);
             } else {
@@ -50,7 +50,7 @@ const App = () => {
             }
             setOnline(true);
         }
-    }, [loadingDatabase, value, user, setTodos, online, setOnline]);
+    }, [loadingDatabase, snapshot, user, setTodos, online, setOnline]);
 
     const handleError = ( err ) => {
         switch(err.code) {
@@ -92,11 +92,11 @@ const App = () => {
         firebase.auth().sendPasswordResetEmail(email).then(() => setResetStatus("Email sent")).catch(err => setResetStatus(handleError(err)));
     };
 
-    const saveData = () => {
+    const saveData = ( data ) => {
         if (user && online) {
-            firebase.database().ref('users/' + user.uid).set(JSON.stringify(todos));
+            firebase.database().ref('users/' + user.uid).set(JSON.stringify(data));
         } else if (!user && !online) {
-            localStorage.setItem('store', JSON.stringify(todos));
+            localStorage.setItem('store', JSON.stringify(data));
         }
     };
 
@@ -116,12 +116,12 @@ const App = () => {
                     <Route exact path="/">
                         {databaseError && <LoadingBox text={userError} />}
                         {loadingDatabase && <LoadingBox text="Loading data..." />}
-                        {!loadingDatabase && value && online &&
+                        {!loadingDatabase && snapshot && online &&
                         <MainContainer
                             user={user}
                             getLocalStorage={getLocalStorage}
                             saveData={saveData}
-                            todos={todos}
+                            todos={JSON.parse(snapshot.val())}
                             setTodos={setTodos}
                             active={active}
                             setActive={setActive}

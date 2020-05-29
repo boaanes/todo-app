@@ -25,14 +25,13 @@ const EditList = ({ onEditClick, setVisible }) => {
             <div className="form-container">
                 <input
                     type="form"
-                    className="list-input-field"
                     value={text}
                     placeholder="new list name..."
                     onChange={( evt ) => setText(evt.target.value)}
                     onKeyPress={( evt ) => {if (evt.charCode === 13 && text !== '') handleClick()}}
                     autoFocus={true}
                 />
-                <button aria-label="add" onClick={handleClick}>
+            <button aria-label="add" className="icon-btn" onClick={handleClick}>
                     <FontAwesomeIcon icon={faCheck} />
                 </button>
             </div>

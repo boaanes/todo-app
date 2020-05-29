@@ -33,7 +33,6 @@ jobs:
           path: build
 
   deploy:
-    if: github.actor == 'repo-owner'
     name: Deploy
     needs: build
     runs-on: ubuntu-latest

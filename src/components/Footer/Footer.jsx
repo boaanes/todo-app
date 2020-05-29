@@ -5,6 +5,7 @@ import './footer.scss';
 const Footer = () => (
         <div className="footer">
             <div className="logo-container">
+                <div></div>
                 <img
                     className="github-logo"
                     src={require('../../assets/github-logo.png')}
@@ -17,6 +18,7 @@ const Footer = () => (
                     onClick={() => window.open("mailto:boaanes@gmail.com", '_blank').focus()}
                     alt="Send me a mail!"
                 />
+                <div></div>
             </div>
             <div className="signature">
                 <p>Bo Aanes - 2020</p>

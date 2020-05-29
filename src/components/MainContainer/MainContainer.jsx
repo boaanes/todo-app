@@ -77,7 +77,6 @@ const MainContainer = ({ getLocalStorage, saveData, todos, setTodos, active, set
                 deleteList={( id ) => deleteList(id)}
                 editListName={( name ) => editListName(name)}
             />
-            <br/>
             <Summary
                 todoCount={active.items.length}
                 completedCount={active.items.filter(todo => todo.completed === true).length}

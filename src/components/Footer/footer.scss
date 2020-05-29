@@ -1,37 +1,49 @@
-img:hover {
-    cursor: pointer;
-}
-
 .footer {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    justify-items: center;
+    align-items: center;
+
     width: 100%;
     bottom: 0;
     left: 0;
 
     padding-top: 9px;
-    padding-bottom: 4px;
+    padding-bottom: 9px;
 
     background-color: #152026;
     color: #d8dee9;
 
-    display: flex;
     position: fixed;
+
+    img {
+        transition: 0.4s;
+        &:hover {
+            cursor: pointer;
+        }
+    }
 }
 
 .logo-container {
-    margin: auto;
-}
+    width: 100%;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    align-items: center;
 
-.signature {
-    margin: auto;
-}
+    .logo-left {
+        margin-right: 5%;
+        display: grid;
+        justify-items: end;
+    }
 
-img {
-    transition: 0.4s;
+    .logo-right {
+        display: grid;
+        align-items: center;
+        margin-left: 5%;
+    }
 }
 
 .github-logo {
-    margin-left: 15px;
-    margin-right: 15px;
     width: 50px;
     height: 50px;
 
@@ -41,9 +53,6 @@ img {
 }
 
 .mail-logo {
-    margin-left: 15px;
-    margin-right: 15px;
-    margin-bottom: 7px;
     height: 32px;
     width: 50px;
 

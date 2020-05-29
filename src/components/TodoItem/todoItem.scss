@@ -1,18 +1,13 @@
 .item {
-    width: 100%;
+    display: grid;
+    grid-template-columns: 8% 80% 12%;
+    align-items: center;
+
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
 
-input[type="checkbox"] {
-    margin: auto;
-    cursor: pointer;
-}
-
-.desc {
-    width: 80%;
-    margin: auto;
+    .button-holder {
+        display: flex;
+        flex-direction: row-reverse;
+    }
 }

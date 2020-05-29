@@ -7,16 +7,14 @@ import './todoItem.scss';
 
 const TodoItem = ({ id, desc, completed, onDeleteClick, onCheckClick }) => (
     <div className="item">
-        <input type="checkbox" className="check" checked={assertChecked(completed)} id={`todoItemCheckbox-${id}`} onChange={() => onCheckClick(id)} />
-        <div className="desc"><label style={{textDecoration: completed ? 'line-through': 'none', color: completed ? 'grey': ''}}  htmlFor={`todoItemCheckbox-${id}`}>{desc}</label></div>
-        <button className="icon-btn" onClick={() => onDeleteClick(id)}>
-            <FontAwesomeIcon icon={faTimes} />
-        </button>
+        <input type="checkbox" checked={completed} id={`todoItemCheckbox-${id}`} onChange={() => onCheckClick(id)} />
+        <label style={{textDecoration: completed ? 'line-through': 'none', color: completed ? 'grey': ''}}  htmlFor={`todoItemCheckbox-${id}`}>{desc}</label>
+        <div className="button-holder">
+            <button className="icon-btn" onClick={() => onDeleteClick(id)}>
+                <FontAwesomeIcon icon={faTimes} style={{transform: "scale(1.25)"}}/>
+            </button>
+        </div>
     </div>
 );
-
-function assertChecked(b) {
-    if (b) return true; else return false;
-}
 
 export default TodoItem;

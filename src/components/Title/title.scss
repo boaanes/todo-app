@@ -1,17 +1,24 @@
 .title {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 77% 23%;
+    align-items: center;
+
     margin-bottom: 0.5rem;
 }
 
 .title-text {
+    word-break: break-word;
     font-size: 2rem;
     margin-top: 5px;
 }
 
+.title-btns {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    justify-items: end;
+}
+
 .edit-icon {
-    margin-right: 10px;
     transition: 0.1s;
     transform: scale(0.8);
 
@@ -21,9 +28,15 @@
     }
 }
 
+.title-btns-wrapper {
+    transition: 0.1s;
+
+    &:hover {
+        transform: scale(1.23);
+    }
+}
+
 .dropdown-icon-up {
-    margin-top: 10px;
-    margin-right: 10px;
     transition: 0.3s;
 
     &:hover {
@@ -32,8 +45,6 @@
 }
 
 .dropdown-icon-down {
-    margin-top: 10px;
-    margin-right: 10px;
     transition: 0.3s;
     transform: rotate(-180deg);
 

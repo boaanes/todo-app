@@ -24,7 +24,7 @@ const Title = ( props ) => {
                 )}>
                     <EditList onEditClick={props.editListName} />
                 </Modal>
-                <div class="title-btns-wrapper">
+                <div className="title-btns-wrapper">
                     <FontAwesomeIcon
                         className={(props.listOpen) ? "dropdown-icon-up" : "dropdown-icon-down"}
                         icon={faAngleUp}

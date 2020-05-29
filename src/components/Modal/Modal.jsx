@@ -40,7 +40,7 @@ const Modal = ({ children, activator }) => {
                     classNames="modal-transition"
                     unmountOnExit
                 >{() => contents}</CSSTransition>,
-                document.body
+                document.getElementById("root")
             )}
         </>
     );

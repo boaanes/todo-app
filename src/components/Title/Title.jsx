@@ -24,12 +24,14 @@ const Title = ( props ) => {
                 )}>
                     <EditList onEditClick={props.editListName} />
                 </Modal>
-                <FontAwesomeIcon
-                    className={(props.listOpen) ? "dropdown-icon-up" : "dropdown-icon-down"}
-                    icon={faAngleUp}
-                    size="2x"
-                    onClick={() => props.setListOpen(prevListOpen => !prevListOpen)}
-                />
+                <div class="title-btns-wrapper">
+                    <FontAwesomeIcon
+                        className={(props.listOpen) ? "dropdown-icon-up" : "dropdown-icon-down"}
+                        icon={faAngleUp}
+                        size="2x"
+                        onClick={() => props.setListOpen(prevListOpen => !prevListOpen)}
+                    />
+                </div>
             </div>
         </div>
     );

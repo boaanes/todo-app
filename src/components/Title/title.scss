@@ -28,6 +28,14 @@
     }
 }
 
+.title-btns-wrapper {
+    transition: 0.1s;
+
+    &:hover {
+        transform: scale(1.23);
+    }
+}
+
 .dropdown-icon-up {
     transition: 0.3s;
 

@@ -27,9 +27,18 @@
 .logo-container {
     width: 100%;
     display: grid;
-    grid-template-columns: 35% 15% 15% 35%;
-    justify-items: center;
+    grid-template-columns: 50% 50%;
     align-items: center;
+
+    .logo-left {
+        margin-right: 5%;
+        display: grid;
+        justify-items: end;
+    }
+
+    .logo-right {
+        margin-left: 5%;
+    }
 }
 
 .github-logo {

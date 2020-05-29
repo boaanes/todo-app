@@ -11,7 +11,7 @@ const TodoItem = ({ id, desc, completed, onDeleteClick, onCheckClick }) => (
         <label style={{textDecoration: completed ? 'line-through': 'none', color: completed ? 'grey': ''}}  htmlFor={`todoItemCheckbox-${id}`}>{desc}</label>
         <div className="button-holder">
             <button className="icon-btn" onClick={() => onDeleteClick(id)}>
-                <FontAwesomeIcon icon={faTimes} />
+                <FontAwesomeIcon icon={faTimes} style={{transform: "scale(1.25)"}}/>
             </button>
         </div>
     </div>

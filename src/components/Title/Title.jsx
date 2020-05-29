@@ -13,7 +13,7 @@ const Title = ( props ) => {
     return (
         <div className="title">
             <div className="title-text">{props.title}</div>
-            <div>
+            <div className="title-btns">
                 <Modal activator={({ setVisible }) => (
                     <FontAwesomeIcon
                         className="edit-icon"

@@ -41,6 +41,10 @@ input[type='form'], input[type='email'], input[type='password'] {
     }
 }
 
+input[type="checkbox"] {
+    cursor: pointer;
+}
+
 button {
     transition: 0.1s;
 

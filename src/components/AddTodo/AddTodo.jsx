@@ -12,7 +12,7 @@ const AddTodo = ({ onAddClick }) => {
     const handleClick = useCallback(() => {
         onAddClick(text);
         setText('');
-    }, [onAddClick, text]);
+    }, [onAddClick, text, setText]);
 
     return (
         <div className="form-container">

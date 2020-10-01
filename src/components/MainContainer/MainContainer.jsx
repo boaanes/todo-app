@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useReducer } from 'react';
 
 import './mainContainer.scss';
 
@@ -9,6 +9,9 @@ import Todo from './Todo';
 import Summary from '../Summary/Summary';
 
 const MainContainer = ({ getLocalStorage, saveData, todos, setTodos, active, setActive }) => {
+
+    //temporary fix for not re-rendering after adding new list when offline
+    const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
 
     const updateActive = useCallback(( id ) => {
         setActive(todos[id]);
@@ -58,6 +61,7 @@ const MainContainer = ({ getLocalStorage, saveData, todos, setTodos, active, set
             saveData(prevTodos);
             return prevTodos;
         });
+        forceUpdate(); //force re-render
     }, [todos, setTodos, saveData]);
 
     const deleteList = useCallback(( id ) => {

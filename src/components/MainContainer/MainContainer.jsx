@@ -13,6 +13,8 @@ const MainContainer = ({ getLocalStorage, saveData, todos, setTodos, active, set
     //temporary fix for not re-rendering after adding new list when offline
     const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
 
+    const dummy = ( a ) => 4+4;
+
     const updateActive = useCallback(( id ) => {
         setActive(todos[id]);
     }, [setActive, todos]);
@@ -61,6 +63,7 @@ const MainContainer = ({ getLocalStorage, saveData, todos, setTodos, active, set
             saveData(prevTodos);
             return prevTodos;
         });
+        dummy(ignored);
         forceUpdate(); //force re-render
     }, [todos, setTodos, saveData]);
 

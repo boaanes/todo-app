@@ -1,0 +1,42 @@
+name: Weekly release
+on:
+  push:
+    branches: [master]
+
+
+jobs: 
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          ref: develop
+
+      - name: Install GitHub CLI
+        run: |
+          apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C99B11DEB97541F0
+          apt-add repository https://cli.github.com/packages
+          apt update
+          apt install gh
+
+      - name: Create pull request
+        run: |
+          gh auth login
+          gh config set prompt disabled
+          if [[ $(git diff master develop) = "" ]]; then \
+            exit 0; \
+          else \
+            gh pr create \
+              -B master \
+              -t "Weekly release for week $(date +%V)" \
+              -b "#Weekly release\n new line lol" \
+              -r bakseter,boaanes \
+              -a bakseter,boaanes
+              -l "release :label:"; \
+            gh release create \
+              -t "weekly-$(date +%V-%G)" \
+              --target master; \
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIITHUB_TOKEN }}

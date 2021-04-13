@@ -23,7 +23,7 @@ const Footer = () => (
                 </div>
             </div>
             <div className="signature">
-                <p>Bo Aanes - 2020</p>
+                <p>Bo Aanes - 2021</p>
             </div>
         </div>
 );

@@ -22,8 +22,8 @@ jobs:
 
       - name: Create pull request
         run: |
-          gh auth login
           gh config set prompt disabled
+          gh auth login --with-token ${{ secrets.GIITHUB_TOKEN }}
           if [[ $(git diff master develop) = "" ]]; then \
             exit 0; \
           else \
@@ -38,5 +38,3 @@ jobs:
               -t "weekly-$(date +%V-%G)" \
               --target master; \
           fi
-        env:
-          GITHUB_TOKEN: ${{ secrets.GIITHUB_TOKEN }}

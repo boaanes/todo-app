@@ -42,9 +42,13 @@ const App = () => {
             if (snapshot.val()) {
                 const json = JSON.parse(snapshot.val());
                 setTodos(json);
-                setActive(Object.values(json)[0]);
             }
-            if (!online) setOnline(true);
+            if (!online) {
+                setOnline(true);
+                if (snapshot.val()) {
+                    setActive(Object.values(JSON.parse(snapshot.val()))[0]);
+                }
+            }
         }
     }, [loadingDatabase, snapshot, user, setTodos, online, setOnline]);
 
